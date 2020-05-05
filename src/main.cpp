@@ -14,7 +14,6 @@ void readGraphNodesFromFile(Graph<int>* graph, string pathToFile){
     int count = 0;
     char c;
     double x = 0,y = 0;
-    int filler;
     int id;
     string line;
 
