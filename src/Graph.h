@@ -9,6 +9,7 @@
 #include <limits>
 #include <algorithm>
 #include <unordered_set>
+#include <math.h>
 #include "MutablePriorityQueue.h"
 
 using namespace std;
@@ -24,28 +25,42 @@ template <class T> class Vertex;
 template <class T>
 class Vertex {
 	T info;                // contents
-	vector<Edge<T> > adj;  // outgoing edges
+	vector<Edge<T> > adj;
+
+private:
+    // outgoing edges
 	bool visited;          // auxiliary field
 	double dist = 0;
 	Vertex<T> *path = nullptr;
 	int queueIndex = 0; 		// required by MutablePriorityQueue
 
-	void addEdge(Vertex<T> *dest, double w);
+	long x;
+    long y;
+	int id;
 
+	void addEdge(Vertex<T> *dest, double w);
 
 public:
 	Vertex(T in);
+    Vertex(T in, long x, long y);
 	bool operator<(Vertex<T> & vertex) const; // // required by MutablePriorityQueue
 	T getInfo() const;
 	double getDist() const;
 	Vertex *getPath() const;
 	friend class Graph<T>;
 	friend class MutablePriorityQueue<Vertex<T>>;
+    const vector<Edge<T>> &getAdj() const;
+    int getX() const;
+    int getY() const;
 };
 
 
 template <class T>
 Vertex<T>::Vertex(T in): info(in) {}
+
+template <class T>
+Vertex<T>::Vertex(T in, long x, long y): info(in), x(x), y(y) {}
+
 
 /*
  * Auxiliary function to add an outgoing edge to a vertex (this),
@@ -76,12 +91,32 @@ Vertex<T> *Vertex<T>::getPath() const {
 	return this->path;
 }
 
+template<class T>
+const vector<Edge<T>> &Vertex<T>::getAdj() const {
+    return adj;
+}
+
+template<class T>
+int Vertex<T>::getX() const {
+    return x;
+}
+
+template<class T>
+int Vertex<T>::getY() const {
+    return y;
+}
+
 /********************** Edge  ****************************/
 
 template <class T>
 class Edge {
 	Vertex<T> *orig; 	// Fp07
-	Vertex<T> * dest;      // destination vertex
+	Vertex<T> * dest;
+public:
+    Vertex<T> *getDest() const;
+
+private:
+    // destination vertex
 	double weight;         // edge weight
 
 	bool selected; // Fp07
@@ -104,6 +139,11 @@ double Edge<T>::getWeight() const {
 }
 
 
+template<class T>
+Vertex<T> *Edge<T>::getDest() const {
+    return dest;
+}
+
 /*************************** Graph  **************************/
 
 template <class T>
@@ -125,9 +165,11 @@ class Graph {
 public:
 	Vertex<T> *findVertex(const T &in) const;
 	bool addVertex(const T &in);
+    bool addVertex(const T &in, int x, int y);
 	bool addEdge(const T &sourc, const T &dest, double w);
 	int getNumVertex() const;
 	vector<Vertex<T> *> getVertexSet() const;
+    double calculateVertexDistance(const T &sourc, const T &dest);
 
 	// Fp05 - single source
 	void dijkstraShortestPath(const T &s);
@@ -145,6 +187,7 @@ public:
 	vector<Vertex<T>*> calculatePrim();
 	vector<Vertex<T>*> calculateKruskal();
 };
+
 
 
 template <class T>
@@ -190,6 +233,14 @@ bool Graph<T>::addVertex(const T &in) {
 	return true;
 }
 
+template <class T>
+bool Graph<T>::addVertex(const T &in, const int x, const int y) {
+    if (findVertex(in) != nullptr)
+        return false;
+    vertexSet.push_back(new Vertex<T>(in, x, y));
+    return true;
+}
+
 /*
  * Adds an edge to a graph (this), given the contents of the source and
  * destination vertices and the edge weight (w).
@@ -203,6 +254,15 @@ bool Graph<T>::addEdge(const T &sourc, const T &dest, double w) {
 		return false;
 	v1->addEdge(v2, w);
 	return true;
+}
+
+template <class T>
+double Graph<T>::calculateVertexDistance(const T &sourc, const T &dest){
+    Vertex<T>* v1 = findVertex(sourc);
+    Vertex<T>* v2 = findVertex(dest);
+    if (v1 == nullptr || v2 == nullptr)
+        return false;
+    return sqrt(pow(v1->x - v2->x,2) + pow(v1->y - v2->y,2));
 }
 
 

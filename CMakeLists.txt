@@ -8,6 +8,7 @@ set(CMAKE_CXX_STANDARD 14)
 link_libraries(ws2_32 wsock32)
 
 
-include_directories(src)
+include_directories(src/lib)
+include_directories(src/resources)
 
 add_executable(CAL_proj src/main.cpp src/MutablePriorityQueue.h src/Graph.h src/lib/connection.cpp src/lib/graphviewer.cpp)
