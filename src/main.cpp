@@ -53,7 +53,7 @@ void readGraphEdgesFromFile(Graph<int>* graph, string pathToFile){
             istringstream ss(line);
             ss >> c >> id1 >> c >> id2 >> c;
 
-            graph->addEdge(id1,id2,graph->calculateVertexDistance(id1,id2));
+            graph->addEdge(id1,id2,graph->calculateVertexDistance(id2,id1));
         }
     }
 
@@ -62,15 +62,13 @@ void readGraphEdgesFromFile(Graph<int>* graph, string pathToFile){
 
 
 int main() {
-    std::cout << "Hello, World!" << std::endl;
-
     Graph<int> graph;
 
-    readGraphNodesFromFile(&graph,"../src/resources/maps/Ermesinde/nodes_x_y_ermesinde.txt");
-//    readGraphNodesFromFile(&graph,"../src/resources/maps/GridGraphs/4x4/nodes.txt");
+//    readGraphNodesFromFile(&graph,"../src/resources/maps/Ermesinde/nodes_x_y_ermesinde.txt");
+    readGraphNodesFromFile(&graph,"../src/resources/maps/GridGraphs/16x16/nodes.txt");
 
-    readGraphEdgesFromFile(&graph,"../src/resources/maps/Ermesinde/edges_ermesinde.txt");
-//    readGraphEdgesFromFile(&graph,"../src/resources/maps/GridGraphs/4x4/edges.txt");
+//    readGraphEdgesFromFile(&graph,"../src/resources/maps/Ermesinde/edges_ermesinde.txt");
+    readGraphEdgesFromFile(&graph,"../src/resources/maps/GridGraphs/16x16/edges.txt");
 
 
     GraphViewer *gv = new GraphViewer(5000, 5000, false);
@@ -107,6 +105,17 @@ int main() {
 
 
     gv->rearrange();
+
+    graph.dijkstraShortestPath(0);
+    vector<int> shortestPath = graph.getPath(0,60);
+    for(int i : shortestPath) {
+        cout << i << endl;
+        gv->setVertexColor(i, "green");
+
+    }
+
+    gv->rearrange();
+
     getchar();
     return 0;
 }
