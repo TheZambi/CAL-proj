@@ -10,6 +10,7 @@
 #include <algorithm>
 #include <unordered_set>
 #include <math.h>
+#include <iostream>
 #include "MutablePriorityQueue.h"
 
 using namespace std;
@@ -149,8 +150,11 @@ Vertex<T> *Edge<T>::getDest() const {
 template <class T>
 class Graph {
 	vector<Vertex<T> *> vertexSet;    // vertex set
+	double minX;
+    double minY;
+private:
 
-	// Fp05
+    // Fp05
 	Vertex<T> * initSingleSource(const T &orig);
 	bool relax(Vertex<T> *v, Vertex<T> *w, double weight);
 	double ** W = nullptr;   // dist
@@ -161,8 +165,12 @@ class Graph {
 
     inline bool relax1(Vertex<T> *v, Vertex<T> *w, double weight);
 
-
 public:
+    void setMinX(double minX);
+    void setMinY(double minY);
+    double getMinX();
+    double getMinY();
+
 	Vertex<T> *findVertex(const T &in) const;
 	bool addVertex(const T &in);
     bool addVertex(const T &in, int x, int y);
@@ -187,6 +195,27 @@ public:
 	vector<Vertex<T>*> calculatePrim();
 	vector<Vertex<T>*> calculateKruskal();
 };
+
+
+template<class T>
+void Graph<T>::setMinX(double minX) {
+    this->minX = minX;
+}
+
+template<class T>
+void Graph<T>::setMinY(double minY) {
+    this->minY = minY;
+}
+
+template<class T>
+double Graph<T>::getMinX() {
+    return minX;
+}
+
+template<class T>
+double Graph<T>::getMinY() {
+    return minY;
+}
 
 
 
@@ -534,7 +563,6 @@ vector<Vertex<T>*> Graph<T>::calculateKruskal() {
 
 	return vertexSet;
 }
-
 
 
 #endif /* GRAPH_H_ */
