@@ -11,6 +11,10 @@
 #define WINDOW_HEIGHT       600
 #define DFLT_VERTEX_COLOR   "blue"
 #define DFLT_EDGE_COLOR     "black"
+#define PRISON_COLOR        "black"
+#define BUS_COLOR_1         "green"
+#define PATH_START          "yellow"
+#define PATH_END            "red"
 
 class Renderer {
     BusManager* manager;
@@ -22,6 +26,7 @@ public:
     void loadVertexes();
     void loadEdges();
     void update();
+    void showBusPath();
 private:
 
 };

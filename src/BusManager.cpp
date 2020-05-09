@@ -2,7 +2,7 @@
 #include <fstream>
 #include <sstream>
 
-BusManager::BusManager(const string& nodePath, const string& edgePath){
+BusManager::BusManager(const string &nodePath, const string &edgePath, int prisonLocation, Prisoner prisoner) : prisoner(prisoner), prisonLocation(prisonLocation) {
 
     this->graph = Graph<int>();
 
@@ -75,7 +75,6 @@ vector<Vertex<int>*> BusManager::getVertexSet(){
     return this->graph.getVertexSet();
 }
 
-
 double BusManager::getMinX() {
     return this->graph.getMinX();
 }
@@ -83,3 +82,26 @@ double BusManager::getMinX() {
 double BusManager::getMinY() {
     return this->graph.getMinY();
 }
+
+vector<int> BusManager::calcBusPath() {
+    vector<int> result;
+    //Prison to prisoner
+    graph.dijkstraShortestPath(prisonLocation);
+    result = graph.getPath(prisonLocation, prisoner.getStart());
+
+    //Prisoner path
+    graph.dijkstraShortestPath(prisoner.getStart());
+    vector<int> prisionerPath = graph.getPath(prisoner.getStart(), prisoner.getDestination());
+    result.insert(result.end(), prisionerPath.begin(), prisionerPath.end());
+
+    return result;
+}
+
+int BusManager::getPrisonLocation() const {
+    return prisonLocation;
+}
+
+const Prisoner &BusManager::getPrisoner() const {
+    return prisoner;
+}
+

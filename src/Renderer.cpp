@@ -30,3 +30,17 @@ void Renderer::loadEdges(){
 void Renderer::update() {
     this->gv->rearrange();
 }
+
+void Renderer::showBusPath() {
+    for(int i : manager->calcBusPath()) {
+        if(i == manager->getPrisonLocation()){
+            gv->setVertexColor(i, PRISON_COLOR);
+        } else if(i == manager->getPrisoner().getStart()){
+            gv->setVertexColor(i, PATH_START);
+        } else if(i == manager->getPrisoner().getDestination()){
+            gv->setVertexColor(i, PATH_END);
+        } else {
+            gv->setVertexColor(i, BUS_COLOR_1);
+        }
+    }
+}
