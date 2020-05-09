@@ -14,6 +14,7 @@ void Renderer::initWindow(){
 void Renderer::loadVertexes(){
     for(auto v : this->manager->getVertexSet()){
         gv->addNode(v->getInfo(), v->getX() - manager->getMinX(), v->getY() - manager->getMinY());
+        gv->setVertexLabel(v->getInfo(),to_string(v->getInfo()));
     }
 }
 
