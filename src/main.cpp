@@ -10,7 +10,10 @@
 
 
 int main() {
-    BusManager manager = BusManager(NODES_FILE, EDGES_FILE, 0, Prisoner(10, 64));
+    vector<Prisoner> prisoners = {Prisoner(5, 25),
+                                  Prisoner(48,105)};
+
+    BusManager manager = BusManager(NODES_FILE, EDGES_FILE, 0, prisoners);
 
     Renderer renderer = Renderer(&manager);
 

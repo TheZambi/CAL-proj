@@ -35,9 +35,9 @@ void Renderer::showBusPath() {
     for(int i : manager->calcBusPath()) {
         if(i == manager->getPrisonLocation()){
             gv->setVertexColor(i, PRISON_COLOR);
-        } else if(i == manager->getPrisoner().getStart()){
+        } else if(find_if(manager->getPrisoners().begin(),manager->getPrisoners().end(), [i] (const Prisoner& p) { return p.getStart() == i; }) != manager->getPrisoners().end()){
             gv->setVertexColor(i, PATH_START);
-        } else if(i == manager->getPrisoner().getDestination()){
+        } else if(find_if(manager->getPrisoners().begin(),manager->getPrisoners().end(), [i] (const Prisoner& p) { return p.getDestination() == i; }) != manager->getPrisoners().end()){
             gv->setVertexColor(i, PATH_END);
         } else {
             gv->setVertexColor(i, BUS_COLOR_1);

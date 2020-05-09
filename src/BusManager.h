@@ -6,18 +6,18 @@
 
 class BusManager {
     Graph<int> graph;
-    Prisoner prisoner;
+    vector<Prisoner> prisoners;
     int prisonLocation;
 
 public:
 
-    BusManager(const string &nodePath, const string &edgePath, int prisonLocation, Prisoner prisoner);
+    BusManager(const string &nodePath, const string &edgePath, int prisonLocation, vector<Prisoner> &prisoners);
     vector<int> calcBusPath();
 
     vector<Vertex<int>*> getVertexSet();
     double getMinX();
     double getMinY();
-    const Prisoner &getPrisoner() const;
+    const vector<Prisoner> &getPrisoners() const;
     int getPrisonLocation() const;
 private:
     void readGraphNodesFromFile(const string& path);

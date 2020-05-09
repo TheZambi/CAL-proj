@@ -2,9 +2,10 @@
 #include <fstream>
 #include <sstream>
 
-BusManager::BusManager(const string &nodePath, const string &edgePath, int prisonLocation, Prisoner prisoner) : prisoner(prisoner), prisonLocation(prisonLocation) {
+BusManager::BusManager(const string &nodePath, const string &edgePath, int prisonLocation, vector<Prisoner> &prisoners) : prisonLocation(prisonLocation) {
 
     this->graph = Graph<int>();
+    this->prisoners = prisoners;
 
     readGraphNodesFromFile(nodePath);
     readGraphEdgesFromFile(edgePath);
@@ -85,14 +86,21 @@ double BusManager::getMinY() {
 
 vector<int> BusManager::calcBusPath() {
     vector<int> result;
-    //Prison to prisoner
-    graph.dijkstraShortestPath(prisonLocation);
-    result = graph.getPath(prisonLocation, prisoner.getStart());
+    int last_location = prisonLocation;
 
-    //Prisoner path
-    graph.dijkstraShortestPath(prisoner.getStart());
-    vector<int> prisionerPath = graph.getPath(prisoner.getStart(), prisoner.getDestination());
-    result.insert(result.end(), prisionerPath.begin(), prisionerPath.end());
+    //Prison to prisoner
+    for(const auto & prisoner : prisoners){
+        graph.dijkstraShortestPath(last_location);
+        vector<int> pathToNext = graph.getPath(last_location, prisoner.getStart());
+        result.insert(result.end(), pathToNext.begin(), pathToNext.end());
+
+        //Prisoner path
+        graph.dijkstraShortestPath(prisoner.getStart());
+        vector<int> prisonerPath = graph.getPath(prisoner.getStart(), prisoner.getDestination());
+        result.insert(result.end(), prisonerPath.begin(), prisonerPath.end());
+
+        last_location = prisoner.getDestination();
+    }
 
     return result;
 }
@@ -101,7 +109,7 @@ int BusManager::getPrisonLocation() const {
     return prisonLocation;
 }
 
-const Prisoner &BusManager::getPrisoner() const {
-    return prisoner;
+const vector<Prisoner> &BusManager::getPrisoners() const {
+    return this->prisoners;
 }
 
