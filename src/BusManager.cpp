@@ -2,6 +2,7 @@
 #include <fstream>
 #include <sstream>
 #include <iostream>
+#include <algorithm>
 
 BusManager::BusManager(const string &nodePath, const string &edgePath, int prisonLocation, vector<Prisoner> &prisoners) : prisonLocation(prisonLocation) {
 
@@ -102,28 +103,22 @@ vector<int> BusManager::calcBusPath() {
     int last_location = prisonLocation;
     priority_queue<Vertex<int>*, vector<Vertex<int>*>, Compare> queue;
 
-    graph.dijkstraShortestPath(last_location);
-    for(const auto & prisoner : prisoners) {
-        if(prisoner.isPickedUp()) {
-            queue.push(graph.findVertex(prisoner.getDestination()));
-        } else if(!prisoner.isDelivered()) {
-            queue.push(graph.findVertex(prisoner.getStart()));
-        }
-    }
+    vector<Vertex<int>*> dests;
+    make_heap(dests.begin(), dests.end(), Compare());
 
-    //Prison to prisoner
-    while(!queue.empty()) {
+    for(const auto & prisoner : prisoners) {
+        dests.push_back(graph.findVertex(prisoner.getStart()));
+    }
+    
+    while(dests.size()) {
         vector<Vertex<int>*> temp;
-        while(!queue.empty()) {
-            temp.push_back(queue.top());
-            queue.pop();
-        }
-        for(int i = 0; i < temp.size(); ++i) {
-            queue.push(temp.at(i));
-        }
         graph.dijkstraShortestPath(last_location);
-        Vertex<int> *nextDest = queue.top();
-        queue.pop();
+        sort_heap(dests.begin(), dests.end());
+
+        Vertex<int> *nextDest = dests.front();
+        pop_heap(dests.begin(), dests.end());
+        dests.pop_back();
+
         vector<int> pathToNext = graph.getPath(last_location, nextDest->getInfo());
         result.insert(result.end(), pathToNext.begin(), pathToNext.end());
         std::cout << last_location << endl;
@@ -132,25 +127,13 @@ vector<int> BusManager::calcBusPath() {
         for(auto & prisoner : prisoners) {
             if (prisoner.getStart() == last_location) {
                 prisoner.pickUp();
-                queue.push(graph.findVertex(prisoner.getDestination()));
+                dests.push_back(graph.findVertex(prisoner.getDestination()));
+                push_heap(dests.begin(), dests.end());
             } else if (prisoner.getDestination() == last_location) {
                 prisoner.deliver();
             }
         }
     }
-
-//    for(const auto & prisoner : prisoners){
-//        graph.dijkstraShortestPath(last_location);
-//        vector<int> pathToNext = graph.getPath(last_location, prisoner.getStart());
-//        result.insert(result.end(), pathToNext.begin(), pathToNext.end());
-//
-//        //Prisoner path
-//        graph.dijkstraShortestPath(prisoner.getStart());
-//        vector<int> prisonerPath = graph.getPath(prisoner.getStart(), prisoner.getDestination());
-//        result.insert(result.end(), prisonerPath.begin(), prisonerPath.end());
-//
-//        last_location = prisoner.getDestination();
-//    }
 
     return result;
 }
