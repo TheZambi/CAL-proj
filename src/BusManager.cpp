@@ -55,6 +55,7 @@ void BusManager::readGraphEdgesFromFile(const string& path){
     int count;
     char c;
     int id1,id2;
+    double w;
     string line;
 
     if(in.is_open()){
@@ -64,9 +65,9 @@ void BusManager::readGraphEdgesFromFile(const string& path){
         for(size_t i = 0; i < count; ++i){
             getline(in,line);
             istringstream ss(line);
-            ss >> c >> id1 >> c >> id2 >> c;
+            ss >> c >> id1 >> c >> id2 >> c >> w;
 
-            this->graph.addEdge(id1,id2,graph.calculateVertexDistance(id2,id1));
+            this->graph.addEdge(id1,id2,w);
 
         }
     }
