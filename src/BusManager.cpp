@@ -102,7 +102,7 @@ public:
 vector<int> BusManager::calcBusPath() {
     vector<int> result;
     int last_location = prisonLocation;
-    priority_queue<Vertex<int>*, vector<Vertex<int>*>, Compare> queue;
+    priority_queue<Vertex<int>*, vector<Vertex<int>*>> queue;
 
     vector<Vertex<int>*> dests;
     make_heap(dests.begin(), dests.end(), Compare());
@@ -111,7 +111,7 @@ vector<int> BusManager::calcBusPath() {
         dests.push_back(graph.findVertex(prisoner.getStart()));
     }
     
-    while(dests.size()) {
+    while(!dests.empty()) {
         vector<Vertex<int>*> temp;
         graph.dijkstraShortestPath(last_location);
         sort_heap(dests.begin(), dests.end());

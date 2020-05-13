@@ -20,6 +20,8 @@ class Renderer {
     BusManager* manager;
     GraphViewer* gv;
 
+    vector<pair<int,int>> edges;
+
 public:
     Renderer(BusManager* manager);
     void initWindow();
