@@ -29,5 +29,4 @@ void Prisoner::pickUp() {
 
 void Prisoner::deliver() {
     delivered = true;
-    pickedUp = false;
 }
