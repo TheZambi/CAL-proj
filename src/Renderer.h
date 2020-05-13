@@ -3,24 +3,26 @@
 
 #include "BusManager.h"
 #include "graphviewer.h"
+#include <string>
 
 
 #define MAP_WIDTH           5000
 #define MAP_HEIGHT          5000
 #define WINDOW_WIDTH        600
 #define WINDOW_HEIGHT       600
-#define DFLT_VERTEX_COLOR   "blue"
-#define DFLT_EDGE_COLOR     "black"
-#define PRISON_COLOR        "black"
-#define BUS_COLOR_1         "green"
-#define PATH_START          "yellow"
-#define PATH_END            "red"
+#define DFLT_VERTEX_COLOR   BLUE
+#define DFLT_EDGE_COLOR     BLACK
+#define PRISON_COLOR        BLACK
+#define PATH_START          YELLOW
+#define PATH_END            RED
 
 class Renderer {
     BusManager* manager;
     GraphViewer* gv;
 
     vector<pair<int,int>> edges;
+
+    const string path_color[6] = {ORANGE,GREEN,PINK,YELLOW,CYAN,GRAY};
 
 public:
     Renderer(BusManager* manager);
