@@ -18,8 +18,9 @@ int main() {
 //    vector<Prisoner> prisoners = {Prisoner(1183721318, 1193124746),
 //                                  Prisoner(1183721287,1173440023)};
 
-    vector<Prisoner> prisoners = {Prisoner(38, 377),
-                                  Prisoner(45, 79)};
+
+    vector<Prisoner> prisoners = {Prisoner(857,430),Prisoner(1, 377), Prisoner(722, 66)};
+
     //BusManager manager = BusManager(NODES_FILE, EDGES_FILE, 0, prisoners);
     BusManager manager = BusManager(NODES_FILE, EDGES_FILE, 1, prisoners);
     Renderer renderer = Renderer(&manager);
@@ -27,7 +28,8 @@ int main() {
     renderer.initWindow();
     renderer.loadVertexes();
     renderer.loadEdges();
-    renderer.showBusPath();
+    //renderer.showBusPath();
+    renderer.showBusesPaths(3);
     renderer.update();
 
     getchar();

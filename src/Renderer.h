@@ -29,7 +29,8 @@ public:
     void loadEdges();
     void update();
     void showBusPath();
-private:
+
+    void showBusesPaths(int i);
 
 };
 

@@ -56,3 +56,23 @@ void Renderer::showBusPath() {
         }
     }
 }
+
+void Renderer::showBusesPaths(int nBus) {
+    vector<vector<int>> busesPath = manager->calcMultipleBusPath(nBus);
+    for(auto bp : busesPath) {
+        for(auto i : bp) {
+            if (i == manager->getPrisonLocation()) {
+                gv->setVertexColor(i, PRISON_COLOR);
+            } else if (find_if(manager->getPrisoners().begin(), manager->getPrisoners().end(),
+                               [i](const Prisoner &p) { return p.getStart() == i; }) != manager->getPrisoners().end()) {
+                gv->setVertexColor(i, PATH_START);
+            } else if (find_if(manager->getPrisoners().begin(), manager->getPrisoners().end(),
+                               [i](const Prisoner &p) { return p.getDestination() == i; }) !=
+                       manager->getPrisoners().end()) {
+                gv->setVertexColor(i, PATH_END);
+            } else {
+                gv->setVertexColor(i, BUS_COLOR_1);
+            }
+        }
+    }
+}

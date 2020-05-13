@@ -92,17 +92,87 @@ class Compare
 public:
     bool operator() (Vertex<int> *a, Vertex<int> *b)
     {
-        if(a->getDist() >= b->getDist()) {
-            return true;
-        }
-        return false;
+        return a->getDist() > b->getDist();
     }
 };
+
+vector<vector<int>> BusManager::calcMultipleBusPath(int numBus)
+{
+    vector<vector<int>> results;
+    vector<int> last_locations;
+    bool emptyHeaps = false;
+
+    vector<vector<Vertex<int>*>> dests;
+
+
+
+    for(size_t i = 0 ;i<numBus ; i++){
+        results.emplace_back();
+        last_locations.push_back(prisonLocation);
+        dests.emplace_back();
+
+        for(const auto & prisoner : prisoners) {
+            dests[i].push_back(graph.findVertex(prisoner.getStart()));
+        }
+
+        make_heap(dests.at(i).begin(), dests.at(i).end(), Compare());
+
+    }
+
+    while(!emptyHeaps)
+    {
+        for(size_t i = 0; i < numBus ; i++ ) {
+            if (!dests[i].empty()) {
+                bool hadAction = false;
+                vector<Vertex<int> *> temp;
+
+                graph.dijkstraShortestPath(last_locations[i]);
+                make_heap(dests.at(i).begin(), dests.at(i).end(), Compare());
+
+                Vertex<int> *nextDest = dests[i].front();
+                pop_heap(dests[i].begin(), dests[i].end());
+                dests[i].pop_back();
+
+                vector<int> pathToNext = graph.getPath(last_locations[i], nextDest->getInfo());
+
+                int currentLocation = last_locations[i];
+                last_locations[i] = nextDest->getInfo();
+
+                for (auto &prisoner : prisoners) {
+                    if (prisoner.getStart() == last_locations[i] && !prisoner.isPickedUp()) {
+                        prisoner.pickUp(i);
+                        dests[i].push_back(graph.findVertex(prisoner.getDestination()));
+                        hadAction=true;
+                    } else if (prisoner.getDestination() == last_locations[i] && prisoner.isPickedUp() &&
+                               prisoner.getBusNum() == i) {
+                        prisoner.deliver();
+                        hadAction=true;
+                    }
+                }
+                if(!hadAction) {
+                    last_locations[i] = currentLocation;
+                    i--;
+                } else{
+                    results[i].insert(results[i].end(), pathToNext.begin(), pathToNext.end());
+                }
+            }
+
+        }
+
+        for(size_t i = 0 ; i < numBus ; i++)
+        {
+            if(!dests[i].empty())
+                break;
+            if(i==numBus-1)
+                emptyHeaps=true;
+        }
+    }
+    return results;
+}
 
 vector<int> BusManager::calcBusPath() {
     vector<int> result;
     int last_location = prisonLocation;
-    priority_queue<Vertex<int>*, vector<Vertex<int>*>> queue;
 
     vector<Vertex<int>*> dests;
     make_heap(dests.begin(), dests.end(), Compare());
@@ -122,12 +192,11 @@ vector<int> BusManager::calcBusPath() {
 
         vector<int> pathToNext = graph.getPath(last_location, nextDest->getInfo());
         result.insert(result.end(), pathToNext.begin(), pathToNext.end());
-        std::cout << last_location << endl;
         last_location = nextDest->getInfo();
 
         for(auto & prisoner : prisoners) {
             if (prisoner.getStart() == last_location && !prisoner.isPickedUp()) {
-                prisoner.pickUp();
+                prisoner.pickUp(0);
                 dests.push_back(graph.findVertex(prisoner.getDestination()));
                 push_heap(dests.begin(), dests.end());
             } else if (prisoner.getDestination() == last_location && prisoner.isDelivered()) {

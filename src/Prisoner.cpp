@@ -5,6 +5,7 @@ Prisoner::Prisoner(const int &start, const int &dest) {
     this->destination = dest;
     this->pickedUp = false;
     this->delivered = false;
+    busNumber = -1;
 }
 
 int Prisoner::getStart() const {
@@ -23,8 +24,14 @@ bool Prisoner::isDelivered() const {
     return delivered;
 }
 
-void Prisoner::pickUp() {
+int Prisoner::getBusNum()
+{
+    return busNumber;
+}
+
+void Prisoner::pickUp(int busNum) {
     pickedUp = true;
+    this->busNumber = busNum;
 }
 
 void Prisoner::deliver() {
