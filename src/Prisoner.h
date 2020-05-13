@@ -7,6 +7,7 @@ class Prisoner {
     int destination;
     bool pickedUp;
     bool delivered;
+    int busNumber;
 
 public:
     bool isPickedUp() const;
@@ -18,7 +19,8 @@ public:
     int getStart() const;
     int getDestination() const;
 
-    void pickUp();
+    void pickUp(int busNum);
+    int getBusNum();
     void deliver();
 };
 

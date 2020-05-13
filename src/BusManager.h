@@ -19,6 +19,8 @@ public:
     double getMinY();
     const vector<Prisoner> &getPrisoners() const;
     int getPrisonLocation() const;
+    vector<vector<int>> calcMultipleBusPath(int numBus);
+
 private:
     void readGraphNodesFromFile(const string& path);
     void readGraphEdgesFromFile(const string& path);
