@@ -126,11 +126,11 @@ vector<int> BusManager::calcBusPath() {
         last_location = nextDest->getInfo();
 
         for(auto & prisoner : prisoners) {
-            if (prisoner.getStart() == last_location) {
+            if (prisoner.getStart() == last_location && !prisoner.isPickedUp()) {
                 prisoner.pickUp();
                 dests.push_back(graph.findVertex(prisoner.getDestination()));
                 push_heap(dests.begin(), dests.end());
-            } else if (prisoner.getDestination() == last_location) {
+            } else if (prisoner.getDestination() == last_location && prisoner.isDelivered()) {
                 prisoner.deliver();
             }
         }
