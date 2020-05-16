@@ -54,10 +54,26 @@ void Menu::readInput() {
             }
             break;
         case MAP:
-            char wait;
-            cin >> wait;
-            renderer->closeWindow();
-            this->state = MAIN;
+            int choiceMap;
+            cin >> choiceMap;
+            switch(choiceMap) {
+                case 0:
+                    this->state = MAIN;
+                    break;
+                case 1:
+                    cout << "Bus number: ";
+                    cin >> choiceMap;
+                    displayBusPath(choiceMap, 5);
+                    break;
+                case 2:
+                    displayMap();
+                    char wait;
+                    fflush(stdout);
+                    cin >> wait;
+                    renderer->closeWindow();
+                    this->state = MAIN;
+                    break;
+            }
             break;
         default:
             break;
@@ -80,11 +96,9 @@ void Menu::display() {
             cout << "0) Back" << endl;
             break;
         case MAP:
-            renderer->initWindow();
-            renderer->loadVertexes();
-            renderer->loadEdges();
-            renderer->showBusesPaths(3);
-            renderer->update();
+            cout << "1) One bus" << endl;
+            cout << "2) All" << endl;
+            cout << "0) Back" << endl;
             break;
     }
 }
@@ -112,6 +126,22 @@ void Menu::addMenu() {
         cout << "Prisioner already exists!" << endl << endl;
     else
         cout << "Prisioner successfuly added" << endl << endl;
+}
+
+void Menu::displayMap() {
+    renderer->initWindow();
+    renderer->loadVertexes();
+    renderer->loadEdges();
+    renderer->showBusesPaths(5);
+    renderer->update();
+}
+
+void Menu::displayBusPath(int busN, int nBus) {
+    renderer->initWindow();
+    renderer->loadVertexes();
+    renderer->loadEdges();
+    renderer->showBusPath(busN, nBus);
+    renderer->update();
 }
 
 

@@ -24,8 +24,7 @@ bool Prisoner::isDelivered() const {
     return delivered;
 }
 
-int Prisoner::getBusNum()
-{
+int Prisoner::getBusNum() const {
     return busNumber;
 }
 

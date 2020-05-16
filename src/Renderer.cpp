@@ -89,3 +89,29 @@ void Renderer::showBusesPaths(int nBus) {
     }
     gv->setVertexColor(manager->getPrisonLocation(), PRISON_COLOR);
 }
+
+void Renderer::showBusPath(int busN, int nBus) {
+    vector<vector<int>> busesPath = manager->calcMultipleBusPath(nBus);
+
+    for(size_t a = 0; a < busesPath.at(busN).size(); ++a) {
+        int i = busesPath.at(busN).at(a);
+        if (find_if(manager->getPrisoners().begin(), manager->getPrisoners().end(),
+                    [i, busN](const Prisoner &p) { return p.getStart() == i && p.getBusNum() == busN; }) != manager->getPrisoners().end()) {
+            gv->setVertexColor(i, PATH_START);
+        } else if (find_if(manager->getPrisoners().begin(), manager->getPrisoners().end(),
+                           [i, busN](const Prisoner &p) { return p.getDestination() == i && p.getBusNum() == busN; }) !=
+                   manager->getPrisoners().end()) {
+            gv->setVertexColor(i, PATH_END);
+        } else {
+            gv->setVertexColor(i, path_color[busN]);
+        }
+
+        if(a < busesPath.at(busN).size() - 1) {
+            int idx = distance(edges.begin(),
+                               find(edges.begin(), edges.end(), pair<int, int>{i, busesPath.at(busN).at(a + 1)})); //Gets the edge id
+            gv->setEdgeColor(idx, path_color[busN]);
+            gv->setEdgeThickness(idx, 5);
+        }
+    }
+    gv->setVertexColor(manager->getPrisonLocation(), PRISON_COLOR);
+}

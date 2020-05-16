@@ -20,7 +20,7 @@ public:
     int getDestination() const;
 
     void pickUp(int busNum);
-    int getBusNum();
+    int getBusNum() const;
     void deliver();
 };
 

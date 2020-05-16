@@ -24,6 +24,8 @@ private:
     void addMenu();
     void display();
     void finish();
+    void displayMap();
+    void displayBusPath(int busN, int nBus);
 };
 
 

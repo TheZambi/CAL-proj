@@ -11,4 +11,4 @@ link_libraries(ws2_32 wsock32)
 include_directories(src/lib)
 include_directories(src/resources)
 
-add_executable(CAL_proj src/main.cpp src/MutablePriorityQueue.h src/Graph.h src/lib/connection.cpp src/lib/graphviewer.cpp src/BusManager.cpp src/BusManager.h src/Renderer.cpp src/Renderer.h src/Prisoner.cpp src/Prisoner.h src/Menu.cpp src/Menu.h)
+add_executable(CAL_proj src/main.cpp src/MutablePriorityQueue.h src/Graph.h src/lib/connection.cpp src/lib/graphviewer.cpp src/BusManager.cpp src/BusManager.h src/Renderer.cpp src/Renderer.h src/Prisoner.cpp src/Prisoner.h src/Menu.cpp src/Menu.h src/Bus.cpp src/Bus.h)
