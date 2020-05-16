@@ -4,13 +4,19 @@
 #include <iostream>
 #include <algorithm>
 
-BusManager::BusManager(const string &nodePath, const string &edgePath, int prisonLocation, vector<Prisoner> &prisoners) : prisonLocation(prisonLocation) {
+BusManager::BusManager(const string &nodePath, const string &edgePath, const string &tagsPath, vector<Prisoner> &prisoners) {
 
     this->graph = Graph<int>();
     this->prisoners = prisoners;
+    this->tags = {
+            {"airport",{}},
+            {"court",{}},
+            {"train",{}}
+    };
 
     readGraphNodesFromFile(nodePath);
     readGraphEdgesFromFile(edgePath);
+    readGraphTagsFromFile(tagsPath);
 }
 
 void BusManager::readGraphNodesFromFile(const string& path){
@@ -69,6 +75,26 @@ void BusManager::readGraphEdgesFromFile(const string& path){
 
             this->graph.addEdge(id1,id2,w);
 
+        }
+    }
+
+    in.close();
+}
+
+void BusManager::readGraphTagsFromFile(const string& path) {
+    ifstream in(path);
+
+    int id;
+    string line, tag;
+
+    if(in.is_open()){
+        while(getline(in,line)){
+            istringstream ss(line);
+            ss >> id >> tag;
+            if(tag == "prison")
+                this->prisonLocation = id;
+            else
+                this->tags.at(tag).push_back(id);
         }
     }
 
@@ -180,7 +206,7 @@ vector<int> BusManager::calcBusPath() {
     for(const auto & prisoner : prisoners) {
         dests.push_back(graph.findVertex(prisoner.getStart()));
     }
-    
+
     while(!dests.empty()) {
         vector<Vertex<int>*> temp;
         graph.dijkstraShortestPath(last_location);

@@ -3,15 +3,17 @@
 
 #include "Graph.h"
 #include "Prisoner.h"
+#include <map>
 
 class BusManager {
     Graph<int> graph;
     vector<Prisoner> prisoners;
     int prisonLocation;
+    map<string,vector<int>> tags;
 
 public:
 
-    BusManager(const string &nodePath, const string &edgePath, int prisonLocation, vector<Prisoner> &prisoners);
+    BusManager(const string &nodePath, const string &edgePath,const string &tagPath, vector<Prisoner> &prisoners);
     vector<int> calcBusPath();
 
     vector<Vertex<int>*> getVertexSet();
@@ -26,6 +28,7 @@ private:
     void readGraphNodesFromFile(const string& path);
     void readGraphEdgesFromFile(const string& path);
 
+    void readGraphTagsFromFile(const string &basicString);
 };
 
 
