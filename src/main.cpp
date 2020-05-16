@@ -2,6 +2,7 @@
 #include <string>
 #include "BusManager.h"
 #include "Renderer.h"
+#include "Menu.h"
 
 //#define NODES_FILE "../src/resources/maps/GridGraphs/16x16/nodes.txt"
 //#define EDGES_FILE "../src/resources/maps/GridGraphs/16x16/edges.txt"
@@ -24,13 +25,16 @@ int main() {
     //BusManager manager = BusManager(NODES_FILE, EDGES_FILE, 0, prisoners);
     BusManager manager = BusManager(NODES_FILE, EDGES_FILE, 1, prisoners);
     Renderer renderer = Renderer(&manager);
+    Menu menu(&manager, &renderer);
 
-    renderer.initWindow();
-    renderer.loadVertexes();
-    renderer.loadEdges();
-    //renderer.showBusPath();
-    renderer.showBusesPaths(3);
-    renderer.update();
+    menu.start();
+
+//    renderer.initWindow();
+//    renderer.loadVertexes();
+//    renderer.loadEdges();
+//    //renderer.showBusPath();
+//    renderer.showBusesPaths(3);
+//    renderer.update();
 
     getchar();
     return 0;

@@ -216,3 +216,7 @@ const vector<Prisoner> &BusManager::getPrisoners() const {
     return this->prisoners;
 }
 
+void BusManager::addPrisoner(Prisoner prisoner) {
+    this->prisoners.push_back(prisoner);
+}
+

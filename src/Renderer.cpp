@@ -57,6 +57,10 @@ void Renderer::showBusPath() {
     }
 }
 
+void Renderer::closeWindow() {
+    gv->closeWindow();
+}
+
 void Renderer::showBusesPaths(int nBus) {
     vector<vector<int>> busesPath = manager->calcMultipleBusPath(nBus);
 

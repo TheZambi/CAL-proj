@@ -32,6 +32,7 @@ public:
     void update();
     void showBusPath();
 
+    void closeWindow();
     void showBusesPaths(int i);
 
 };

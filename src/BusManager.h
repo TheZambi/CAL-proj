@@ -20,6 +20,7 @@ public:
     const vector<Prisoner> &getPrisoners() const;
     int getPrisonLocation() const;
     vector<vector<int>> calcMultipleBusPath(int numBus);
+    void addPrisoner(Prisoner prisoner);
 
 private:
     void readGraphNodesFromFile(const string& path);
