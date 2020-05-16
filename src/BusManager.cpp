@@ -121,7 +121,9 @@ vector<vector<int>> BusManager::calcMultipleBusPath(int numBus)
 
     while(!emptyHeaps)
     {
-        for(size_t i = 0; i < numBus ; i++ ) {
+        size_t i=0;
+        vector<Vertex<int>*> ignoredVertexes;
+        for(i = 0; i < numBus ; i++ ) {
             if (!dests[i].empty()) {
                 bool hadAction = false;
                 vector<Vertex<int> *> temp;
@@ -140,9 +142,19 @@ vector<vector<int>> BusManager::calcMultipleBusPath(int numBus)
 
                 for (auto &prisoner : prisoners) {
                     if (prisoner.getStart() == last_locations[i] && !prisoner.isPickedUp()) {
-                        prisoner.pickUp(i);
-                        dests[i].push_back(graph.findVertex(prisoner.getDestination()));
-                        hadAction=true;
+                        int currentBusToNextDestDist = nextDest->getDist();
+                        for(size_t j = 0; j < numBus; j++ ) {
+                            graph.dijkstraShortestPath(last_locations[j]);
+                            if(i!=j && currentBusToNextDestDist > nextDest->getDist()) {
+                                ignoredVertexes.push_back(nextDest);
+                                break;
+                            }
+                            else if(j==numBus-1) {
+                                prisoner.pickUp(i);
+                                dests[i].push_back(graph.findVertex(prisoner.getDestination()));
+                                hadAction = true;
+                            }
+                        }
                     } else if (prisoner.getDestination() == last_locations[i] && prisoner.isPickedUp() &&
                                prisoner.getBusNum() == i) {
                         prisoner.deliver();
@@ -155,9 +167,18 @@ vector<vector<int>> BusManager::calcMultipleBusPath(int numBus)
                 } else{
                     results[i].insert(results[i].end(), pathToNext.begin(), pathToNext.end());
                 }
+
+                if(hadAction || dests[i].empty())
+                {
+                    for(size_t k=0;k<ignoredVertexes.size();k++)
+                        dests[i].push_back(ignoredVertexes[k]);
+                }
             }
 
         }
+
+
+
 
         for(size_t i = 0 ; i < numBus ; i++)
         {

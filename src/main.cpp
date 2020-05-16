@@ -20,7 +20,7 @@ int main() {
 //                                  Prisoner(1183721287,1173440023)};
 
 
-    vector<Prisoner> prisoners = {Prisoner(857,430),Prisoner(1, 377), Prisoner(722, 66)};
+    vector<Prisoner> prisoners = {Prisoner(148,430),Prisoner(1, 377), Prisoner(860, 66)};
 
     //BusManager manager = BusManager(NODES_FILE, EDGES_FILE, 0, prisoners);
     BusManager manager = BusManager(NODES_FILE, EDGES_FILE, 1, prisoners);
