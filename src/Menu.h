@@ -21,6 +21,7 @@ public:
 
 private:
     void readInput();
+    void addMenu();
     void display();
     void finish();
 };

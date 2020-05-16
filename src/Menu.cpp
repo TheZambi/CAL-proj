@@ -1,4 +1,5 @@
 #include "Menu.h"
+#include "Prisoner.h"
 
 Menu::Menu(BusManager *busManager, Renderer *renderer) {
     this->manager = busManager;
@@ -35,7 +36,22 @@ void Menu::readInput() {
             }
             break;
         case PRISONER:
-            this->state = MAIN;
+            int choicePris;
+            cin >> choicePris;
+            switch (choicePris) {
+                case 0:
+                    this->state = MAIN;
+                    break;
+                case 1:
+                    addMenu();
+                    break;
+                case 2:
+                    manager->resetPrisoners();
+                    cout << "Prisioners reset" << endl;
+                    break;
+                default:
+                    break;
+            }
             break;
         case MAP:
             char wait;
@@ -54,15 +70,14 @@ void Menu::display() {
         case MAIN:
             cout << ":::::MEAT WAGONS::::" << endl;
             cout << "--------------------" << endl;
-            cout << "1) Add prisoners" << endl;
+            cout << "1) Manage prisoners" << endl;
             cout << "2) Show path" << endl;
             cout << "0) Quit" << endl;
             break;
         case PRISONER:
-            cout << "Insert Prisoner Start Location: " << endl;
-            for(int i = 0; i < 0; ++i) {
-                //Locations here
-            }
+            cout << "1) Add prisioner" << endl;
+            cout << "2) Reset prisioners" << endl;
+            cout << "0) Back" << endl;
             break;
         case MAP:
             renderer->initWindow();
@@ -76,6 +91,20 @@ void Menu::display() {
 
 void Menu::finish() {
     this->finished = true;
+}
+
+void Menu::addMenu() {
+    int start;
+    int dest;
+    cout << "Insert prisioner's" << endl;
+    cout << "Start location:";
+    cin >> start;
+    cout << "End Location:";
+    cin >> dest;
+    if(!manager->addPrisoner(Prisoner(start, dest)))
+        cout << "Prisioner already exists!" << endl;
+    else
+        cout << "Prisioner successfuly added" << endl;
 }
 
 

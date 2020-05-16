@@ -237,7 +237,17 @@ const vector<Prisoner> &BusManager::getPrisoners() const {
     return this->prisoners;
 }
 
-void BusManager::addPrisoner(Prisoner prisoner) {
+bool BusManager::addPrisoner(Prisoner prisoner) {
+    for(Prisoner prisoner1 : prisoners) {
+        if(prisoner1.getStart() == prisoner.getStart() &&
+        prisoner1.getDestination() == prisoner.getDestination())
+            return false;
+    }
     this->prisoners.push_back(prisoner);
+    return true;
+}
+
+void BusManager::resetPrisoners() {
+    this->prisoners = {};
 }
 

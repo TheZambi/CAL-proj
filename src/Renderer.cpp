@@ -10,6 +10,7 @@ void Renderer::initWindow(){
     this->gv->createWindow(WINDOW_WIDTH, WINDOW_HEIGHT);
     this->gv->defineVertexColor(DFLT_VERTEX_COLOR);
     this->gv->defineEdgeColor(DFLT_EDGE_COLOR);
+    //this->gv->defineEdgeCurved(false);
 }
 
 void Renderer::loadVertexes(){
@@ -85,6 +86,7 @@ void Renderer::showBusesPaths(int nBus) {
                 int idx = distance(edges.begin(),
                                    find(edges.begin(), edges.end(), pair<int, int>{i, busesPath.at(j).at(a + 1)})); //Gets the edge id
                 gv->setEdgeColor(idx, path_color[j]);
+                gv->setEdgeThickness(idx, 5);
             }
         }
     }
