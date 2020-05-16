@@ -102,9 +102,9 @@ void Menu::addMenu() {
     cout << "End Location:";
     cin >> dest;
     if(!manager->addPrisoner(Prisoner(start, dest)))
-        cout << "Prisioner already exists!" << endl;
+        cout << "Prisioner already exists!" << endl << endl;
     else
-        cout << "Prisioner successfuly added" << endl;
+        cout << "Prisioner successfuly added" << endl << endl;
 }
 
 

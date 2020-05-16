@@ -104,8 +104,6 @@ vector<vector<int>> BusManager::calcMultipleBusPath(int numBus)
 
     vector<vector<Vertex<int>*>> dests;
 
-
-
     for(size_t i = 0 ;i<numBus ; i++){
         results.emplace_back();
         last_locations.push_back(prisonLocation);
@@ -188,6 +186,14 @@ vector<vector<int>> BusManager::calcMultipleBusPath(int numBus)
                 emptyHeaps=true;
         }
     }
+
+
+    for(int i = 0; i < numBus; ++i) {
+        graph.dijkstraShortestPath(last_locations[i]);
+        vector<int> pathToPrison = graph.getPath(last_locations[i], prisonLocation);
+        results[i].insert(results[i].end(), pathToPrison.begin(), pathToPrison.end());
+    }
+
     return results;
 }
 
