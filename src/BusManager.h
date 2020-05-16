@@ -9,7 +9,8 @@ class BusManager {
     Graph<int> graph;
     vector<Prisoner> prisoners;
     int prisonLocation;
-    map<string,vector<int>> tags;
+    map<string,vector<pair<int, string>>> tags;
+
 
 public:
 
@@ -24,6 +25,7 @@ public:
     vector<vector<int>> calcMultipleBusPath(int numBus);
     bool addPrisoner(Prisoner prisoner);
     void resetPrisoners();
+    vector<pair<int, string>> getTags();
 
 private:
     void readGraphNodesFromFile(const string& path);

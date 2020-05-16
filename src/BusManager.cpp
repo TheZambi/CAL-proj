@@ -11,7 +11,9 @@ BusManager::BusManager(const string &nodePath, const string &edgePath, const str
     this->tags = {
             {"airport",{}},
             {"court",{}},
-            {"train",{}}
+            {"train",{}},
+            {"police", {}},
+            {"hospital", {}}
     };
 
     readGraphNodesFromFile(nodePath);
@@ -85,16 +87,18 @@ void BusManager::readGraphTagsFromFile(const string& path) {
     ifstream in(path);
 
     int id;
-    string line, tag;
+    string line, tag, name;
 
     if(in.is_open()){
         while(getline(in,line)){
             istringstream ss(line);
-            ss >> id >> tag;
+            ss >> id >> tag >> name;
+            replace(name.begin(), name.end(), '_', ' ');
             if(tag == "prison")
                 this->prisonLocation = id;
-            else
-                this->tags.at(tag).push_back(id);
+            else {
+                this->tags.at(tag).push_back(std::pair<int, string>(id, name));
+            }
         }
     }
 
@@ -281,5 +285,13 @@ bool BusManager::addPrisoner(Prisoner prisoner) {
 
 void BusManager::resetPrisoners() {
     this->prisoners = {};
+}
+
+vector<pair<int, string>> BusManager::getTags() {
+    vector<pair<int, string>> aux;
+    for(auto t : tags) {
+        aux.insert(aux.end(), t.second.begin(), t.second.end());
+    }
+    return aux;
 }
 
