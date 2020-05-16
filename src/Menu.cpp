@@ -1,5 +1,4 @@
 #include "Menu.h"
-#include "Prisoner.h"
 
 Menu::Menu(BusManager *busManager, Renderer *renderer) {
     this->manager = busManager;
@@ -73,6 +72,8 @@ void Menu::readInput() {
                     renderer->closeWindow();
                     this->state = MAIN;
                     break;
+                default:
+                    break;
             }
             break;
         default:
@@ -112,12 +113,12 @@ void Menu::addMenu() {
     int dest;
     cout << "Insert prisioner's" << endl;
     cout << "Start location:" << endl;
-    for(auto i : manager->getTags()) {
+    for(const auto &i : manager->getTags()) {
         cout << i.first << " - " << i.second << endl;
     }
     cin >> start;
     cout << "End Location:" << endl;
-    for(auto i : manager->getTags()) {
+    for(const auto &i : manager->getTags()) {
         if(i.first != start)
             cout << i.first << " - " << i.second << endl;
     }
