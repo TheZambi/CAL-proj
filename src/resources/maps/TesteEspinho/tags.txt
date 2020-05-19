@@ -1,10 +1,12 @@
 1 prison Hell
-214 hospital Hospital_Da_Trindade
-739 court Tribunal_da_Justiça
 260 court Tribunal_Judicial
 92 airport Aeroporto_Imaginario_de_Espinho
 88 train Estacao_Espinho-Vouga
 744 train Estacao_de_Espinho
 174 police Esquadra_PSP
 885 hospital Centro_Hospitalar_de_V.N._de_Gaia/Espinho
-486 police Esquadra_GNR
+742 police Esquadra_GNR
+214 hospital Hospital_Da_Trindade
+739 court Tribunal_da_Justiça
+630 police Rotunda_dos_PATOS
+793 police Quintos
