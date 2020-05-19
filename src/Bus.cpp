@@ -1,10 +1,10 @@
 #include "Bus.h"
 
-Bus::Bus(vector<Vertex<int>*> destinations, busType type, int last_location) {
-    this->destinations = destinations;
+Bus::Bus(busType type, int last_location, int capacity) {
+    this->maxCapacity = capacity;
+    this->currentCapacity = 0;
     this->type = type;
     this->last_location = last_location;
-    startHeap();
 }
 
 vector<Vertex<int>*> Bus::getDestinations() const {
@@ -48,5 +48,24 @@ void Bus::addVisited(pair<int, string> visit) {
 
 vector<pair<int, string>> Bus::getVisited() {
     return visited;
+}
+
+int Bus::getMaxCapacity() const
+{
+    return maxCapacity;
+}
+
+int Bus::getCurrentCapacity() const {
+    return currentCapacity;
+}
+
+void Bus::addCurrentCapacity(int capacity)
+{
+    this->currentCapacity += capacity;
+}
+
+void Bus::setDestinations(vector<Vertex<int>*> &dests) {
+    this->destinations = dests;
+    startHeap();
 }
 

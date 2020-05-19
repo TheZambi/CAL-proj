@@ -125,16 +125,18 @@ vector<vector<int>> BusManager::calcMultipleBusPath(int numBus)
     vector<vector<int>> results;
     bool emptyHeaps = false;
     buses.clear();
+    buses = {new Bus(REGULAR,prisonLocation,1),new Bus(REGULAR,prisonLocation,1)};
 
-    for(size_t i = 0 ;i<numBus ; i++){
+    for(auto & buse : buses){
         vector<Vertex<int>*> dest;
         results.emplace_back();
 
         for(const auto & prisoner : prisoners) {
             dest.push_back(graph.findVertex(prisoner.getStart()));
         }
-        buses.push_back(new Bus(dest, REGULAR, prisonLocation));
+        buse->setDestinations(dest);
     }
+
 
     while(!emptyHeaps)
     {
@@ -159,21 +161,27 @@ vector<vector<int>> BusManager::calcMultipleBusPath(int numBus)
                 for (auto &prisoner : prisoners) {
                     if (prisoner.getStart() == buses.at(i)->getLastLocation() && !prisoner.isPickedUp()) {
                         int currentBusToNextDestDist = nextDest->getDist();
-                        for(size_t j = 0; j < numBus; j++ ) {
+                        for(size_t j = 0; j < buses.size(); j++ ) {
                             graph.dijkstraShortestPath(buses.at(j)->getLastLocation());
-                            if(i!=j && currentBusToNextDestDist > nextDest->getDist()) {
+                            if(i!=j && currentBusToNextDestDist > nextDest->getDist() ) {
                                 ignoredVertexes.push_back(nextDest);
                                 break;
                             }
-                            else if(j==numBus-1) {
-                                prisoner.pickUp(i);
-                                buses.at(i)->addDest(graph.findVertex(prisoner.getDestination()));
-                                hadAction = true;
+                            else if(j==buses.size()-1) {
+                                if(buses.at(i)->getCurrentCapacity()+prisoner.getWeight()<=buses.at(i)->getMaxCapacity()) {
+                                    buses.at(i)->addCurrentCapacity(prisoner.getWeight());
+                                    prisoner.pickUp(i);
+                                    buses.at(i)->addDest(graph.findVertex(prisoner.getDestination()));
+                                    hadAction = true;
+                                } else
+                                    ignoredVertexes.push_back(nextDest);
+
                             }
                         }
                     } else if (prisoner.getDestination() == buses.at(i)->getLastLocation() && prisoner.isPickedUp() &&
                                prisoner.getBusNum() == i) {
                         prisoner.deliver();
+                        buses.at(i)->addCurrentCapacity(prisoner.getWeight()*-1);
                         hadAction=true;
                     }
                 }
@@ -193,7 +201,10 @@ vector<vector<int>> BusManager::calcMultipleBusPath(int numBus)
                 }
                 
                 if(hadAction){
-                    results[i].insert(results[i].end(), pathToNext.begin(), pathToNext.end());
+                    if(results[i].empty())
+                        results[i].insert(results[i].end(), pathToNext.begin(), pathToNext.end());
+                    else
+                        results[i].insert(results[i].end(), next(pathToNext.begin(),1), pathToNext.end());
                 }
             }
 
@@ -203,7 +214,7 @@ vector<vector<int>> BusManager::calcMultipleBusPath(int numBus)
         {
             if(!buses.at(i)->getDestinations().empty())
                 break;
-            if(i==numBus-1)
+            if(i==buses.size()-1)
                 emptyHeaps=true;
         }
 
@@ -213,7 +224,7 @@ vector<vector<int>> BusManager::calcMultipleBusPath(int numBus)
     for(int i = 0; i < buses.size(); ++i) {
         graph.dijkstraShortestPath(buses.at(i)->getLastLocation());
         vector<int> pathToPrison = graph.getPath(buses.at(i)->getLastLocation(), prisonLocation);
-        results[i].insert(results[i].end(), pathToPrison.begin(), pathToPrison.end());
+        results[i].insert(results[i].end(), next(pathToPrison.begin(),1), pathToPrison.end());
     }
 
     //Eliminar os autocarros que não foram usados e adiciona os sítios com tag visitados pelo autocarros
@@ -222,17 +233,17 @@ vector<vector<int>> BusManager::calcMultipleBusPath(int numBus)
             buses.erase(buses.begin() + i);
         }
         else {
-            int oldRes = -1;
+            //int oldRes = -1;
             for(int res : results.at(i)) {
-                if(res != oldRes) {
+                //if(res != oldRes) {
                     for (pair<int, string> tv : this->getTags()) {
                         if (tv.first == res) {
                             buses.at(i)->addVisited(tv);
                             break;
                         }
                     }
-                    oldRes = res;
-                }
+                    //oldRes = res;
+                //}
             }
         }
     }

@@ -36,3 +36,7 @@ void Prisoner::pickUp(int busNum) {
 void Prisoner::deliver() {
     delivered = true;
 }
+
+int Prisoner::getWeight() const {
+    return this->weight;
+}

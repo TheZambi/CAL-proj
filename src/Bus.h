@@ -19,15 +19,14 @@ public:
 class Bus {
     vector<Vertex<int>*> destinations;
     vector<pair<int, string>> visited;
-public:
-    vector<pair<int,string>> getVisited();
-private:
     int last_location;
     busType type;
     int num;
-
+    int maxCapacity;
+    int currentCapacity; //used to track how much capacity is being used
 public:
-    Bus(vector<Vertex<int>*> destinations, busType type, int last_location);
+    vector<pair<int,string>> getVisited();
+    Bus(busType type, int last_location, int capacity);
 
     busType getType() const;
     vector<Vertex<int>*> getDestinations() const;
@@ -38,6 +37,10 @@ public:
     int getNum() const;
     void addDest(Vertex<int>* dest);
     void addVisited(pair<int,string> visit);
+    int getMaxCapacity() const;
+    int getCurrentCapacity() const;
+    void addCurrentCapacity(int capacity);
+    void setDestinations(vector<Vertex<int>*> &dests);
 };
 
 

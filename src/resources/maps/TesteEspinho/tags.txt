@@ -1,4 +1,6 @@
 1 prison Hell
+214 hospital Hospital_Da_Trindade
+739 court Tribunal_da_Justiça
 260 court Tribunal_Judicial
 92 airport Aeroporto_Imaginario_de_Espinho
 88 train Estacao_Espinho-Vouga
