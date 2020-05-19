@@ -123,7 +123,7 @@ void Menu::addMenu() {
             cout << i.first << " - " << i.second << endl;
     }
     cin >> dest;
-    if(!manager->addPrisoner(Prisoner(start, dest)))
+    if(!manager->addPrisoner(Prisoner(start, dest, 1)))
         cout << "Prisioner already exists!" << endl << endl;
     else
         cout << "Prisioner successfuly added" << endl << endl;

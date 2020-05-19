@@ -60,3 +60,7 @@ bool Bus::canFit(const Prisoner &p) const {
     return currentCapacity + p.getWeight() <= maxCapacity;
 }
 
+int Bus::getMaxCapacity() const {
+    return maxCapacity;
+}
+

@@ -1,10 +1,11 @@
 #include "Prisoner.h"
 
-Prisoner::Prisoner(const int &start, const int &dest) {
+Prisoner::Prisoner(int start, int dest, int danger) {
     this->start = start;
     this->destination = dest;
     this->pickedUp = false;
     this->delivered = false;
+    this->weight = danger;
     busNumber = -1;
 }
 

@@ -8,23 +8,21 @@ class Prisoner {
     bool pickedUp;
     bool delivered;
     int busNumber;
-    int weight = 1;
+    int weight;
 
 public:
+    Prisoner(int start, int dest, int danger);
+
+    void pickUp(int busNum);
+    void deliver();
+
     bool isPickedUp() const;
-
     bool isDelivered() const;
-
-    Prisoner(const int &start, const int &dest);
 
     int getStart() const;
     int getDestination() const;
-
-    void pickUp(int busNum);
-    int getBusNum() const;
-    void deliver();
-
     int getWeight() const;
+    int getBusNum() const;
 };
 
 

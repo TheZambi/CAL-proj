@@ -25,21 +25,26 @@ class Bus {
     busType type;
     int maxCapacity;
     int currentCapacity; //used to track how much capacity is being used
+
 public:
-    vector<pair<int,string>> getVisited();
     Bus(busType type, int last_location, int capacity);
 
-    busType getType() const;
-    vector<Vertex<int>*> getDestinations() const;
     void startHeap();
     Vertex<int>* popHeap();
-    int getLastLocation() const;
-    void setLastLocation(int location);
+
     void addDest(Vertex<int>* dest);
     void addVisited(const pair<int,string> &visit);
     void addCurrentCapacity(int capacity);
+
     void setDestinations(vector<Vertex<int>*> &dests);
+    void setLastLocation(int location);
+
     bool canFit(const Prisoner &p) const;
+    int getLastLocation() const;
+    int getMaxCapacity() const;
+    busType getType() const;
+    vector<pair<int,string>> getVisited();
+    vector<Vertex<int>*> getDestinations() const;
 };
 
 

@@ -124,7 +124,7 @@ vector<vector<int>> BusManager::calcMultipleBusPath(){
     vector<vector<int>> results;
     bool emptyHeaps = false;
     buses.clear();
-    buses = {new Bus(REGULAR,prisonLocation,1), new Bus(REGULAR,prisonLocation,3),
+    buses = {new Bus(REGULAR,prisonLocation,5), new Bus(REGULAR,prisonLocation,3),
              new Bus(REGULAR,prisonLocation,2), new Bus(REGULAR,prisonLocation,1)};
 
     for(auto & bus : buses){
@@ -159,30 +159,32 @@ vector<vector<int>> BusManager::calcMultipleBusPath(){
                 buses.at(i)->setLastLocation(nextDest->getInfo());
 
                 for (auto &prisoner : prisoners) {
+                    if(prisoner.getWeight() > buses.at(i)->getMaxCapacity())
+                        continue;
                     if (prisoner.getStart() == buses.at(i)->getLastLocation() && !prisoner.isPickedUp()) {
                         double currentBusToNextDestDist = nextDest->getDist();
-                        for(size_t j = 0; j < buses.size(); j++ ) {
+                        for (size_t j = 0; j < buses.size(); j++) {
                             graph.dijkstraShortestPath(buses.at(j)->getLastLocation());
                             double nextDist = nextDest->getDist();
                             bool ignoreDest = false;
-                            for(auto &prisoner1 : prisoners) {
-                                if(i != j && prisoner1.isPickedUp() && !prisoner1.isDelivered() && prisoner1.getBusNum() == j) {
+                            for (auto &prisoner1 : prisoners) {
+                                if (i != j && prisoner1.isPickedUp() && !prisoner1.isDelivered() &&
+                                    prisoner1.getBusNum() == j) {
                                     graph.dijkstraShortestPath(prisoner1.getDestination());
-                                    if(nextDest->getDist() < nextDist) {
+                                    if (nextDest->getDist() < nextDist) {
                                         ignoredVertexes.push_back(nextDest);
                                         ignoreDest = true;
                                         break;
                                     }
                                 }
                             }
-                            if(ignoreDest)
+                            if (ignoreDest)
                                 break;
-                            if(i!=j && currentBusToNextDestDist > nextDist) {
+                            if (i != j && currentBusToNextDestDist > nextDist) {
                                 ignoredVertexes.push_back(nextDest);
                                 break;
-                            }
-                            else if(j==buses.size()-1) {
-                                if(buses.at(i)->canFit(prisoner)){
+                            } else if (j == buses.size() - 1) {
+                                if (buses.at(i)->canFit(prisoner)) {
                                     buses.at(i)->addCurrentCapacity(prisoner.getWeight());
                                     prisoner.pickUp(i);
                                     buses.at(i)->addDest(graph.findVertex(prisoner.getDestination()));
@@ -194,33 +196,30 @@ vector<vector<int>> BusManager::calcMultipleBusPath(){
                     } else if (prisoner.getDestination() == buses.at(i)->getLastLocation() && prisoner.isPickedUp() &&
                                prisoner.getBusNum() == i) {
                         prisoner.deliver();
-                        buses.at(i)->addCurrentCapacity(prisoner.getWeight()*-1);
-                        hadAction=true;
+                        buses.at(i)->addCurrentCapacity(prisoner.getWeight() * -1);
+                        hadAction = true;
                     }
                 }
 
-                bool aux = buses.at(i)->getDestinations().empty();
-                if(hadAction || aux) {
+                if (hadAction || buses.at(i)->getDestinations().empty()) {
                     if (!hadAction) {
                         buses.at(i)->setLastLocation(currentLocation);
                     }
                     for (auto &ignoredVertex : ignoredVertexes)
                         buses.at(i)->addDest(ignoredVertex);
                     ignoredVertexes.clear();
-                }
-                else{
+                } else {
                     buses.at(i)->setLastLocation(currentLocation);
                     i--;
                 }
-                
-                if(hadAction){
-                    if(results[i].empty())
+
+                if (hadAction) {
+                    if (results[i].empty())
                         results[i].insert(results[i].end(), pathToNext.begin(), pathToNext.end());
                     else
-                        results[i].insert(results[i].end(), next(pathToNext.begin(),1), pathToNext.end());
+                        results[i].insert(results[i].end(), next(pathToNext.begin(), 1), pathToNext.end());
                 }
             }
-
         }
 
         for(size_t i = 0 ; i < buses.size() ; i++)
