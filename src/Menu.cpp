@@ -111,6 +111,7 @@ void Menu::finish() {
 void Menu::addMenu() {
     int start;
     int dest;
+    int weight;
     cout << "Insert prisioner's" << endl;
     cout << "Start location:" << endl;
     for(const auto &i : manager->getTags()) {
@@ -123,7 +124,9 @@ void Menu::addMenu() {
             cout << i.first << " - " << i.second << endl;
     }
     cin >> dest;
-    if(!manager->addPrisoner(Prisoner(start, dest, 1)))
+    cout << "Danger degree (number of places that they occupy):";
+    cin >> weight;
+    if(!manager->addPrisoner(Prisoner(start, dest, weight)))
         cout << "Prisioner already exists!" << endl << endl;
     else
         cout << "Prisioner successfuly added" << endl << endl;
