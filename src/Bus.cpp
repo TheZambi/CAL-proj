@@ -42,7 +42,7 @@ void Bus::addDest(Vertex<int>* dest) {
     destinations.push_back(dest);
 }
 
-void Bus::addVisited(pair<int, string> visit) {
+void Bus::addVisited(const pair<int, string> &visit) {
     visited.push_back(visit);
 }
 
@@ -67,5 +67,9 @@ void Bus::addCurrentCapacity(int capacity)
 void Bus::setDestinations(vector<Vertex<int>*> &dests) {
     this->destinations = dests;
     startHeap();
+}
+
+bool Bus::canFit(const Prisoner &p) const {
+    return currentCapacity + p.getWeight() <= maxCapacity;
 }
 

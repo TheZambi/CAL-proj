@@ -125,7 +125,7 @@ vector<vector<int>> BusManager::calcMultipleBusPath(int numBus)
     vector<vector<int>> results;
     bool emptyHeaps = false;
     buses.clear();
-    buses = {new Bus(REGULAR,prisonLocation,5),new Bus(REGULAR,prisonLocation,1),new Bus(REGULAR,prisonLocation,1),new Bus(REGULAR,prisonLocation,1)};
+    buses = {new Bus(REGULAR,prisonLocation,10),new Bus(REGULAR,prisonLocation,3),new Bus(REGULAR,prisonLocation,2),new Bus(REGULAR,prisonLocation,1)};
 
     for(auto & buse : buses){
         vector<Vertex<int>*> dest;
@@ -163,19 +163,18 @@ vector<vector<int>> BusManager::calcMultipleBusPath(int numBus)
                         int currentBusToNextDestDist = nextDest->getDist();
                         for(size_t j = 0; j < buses.size(); j++ ) {
                             graph.dijkstraShortestPath(buses.at(j)->getLastLocation());
-                            if(i!=j && currentBusToNextDestDist > nextDest->getDist() ) {
+                            if(i!=j && currentBusToNextDestDist > nextDest->getDist()) {
                                 ignoredVertexes.push_back(nextDest);
                                 break;
                             }
                             else if(j==buses.size()-1) {
-                                if(buses.at(i)->getCurrentCapacity()+prisoner.getWeight()<=buses.at(i)->getMaxCapacity()) {
+                                if(buses.at(i)->canFit(prisoner)){
                                     buses.at(i)->addCurrentCapacity(prisoner.getWeight());
                                     prisoner.pickUp(i);
                                     buses.at(i)->addDest(graph.findVertex(prisoner.getDestination()));
                                     hadAction = true;
                                 } else
                                     ignoredVertexes.push_back(nextDest);
-
                             }
                         }
                     } else if (prisoner.getDestination() == buses.at(i)->getLastLocation() && prisoner.isPickedUp() &&

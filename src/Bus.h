@@ -1,6 +1,8 @@
 #ifndef CAL_PROJ_BUS_H
 #define CAL_PROJ_BUS_H
 #include "Graph.h"
+#include "Prisoner.h"
+
 enum busType {
     REGULAR,
     AIRPORTS,
@@ -36,11 +38,12 @@ public:
     void setLastLocation(int location);
     int getNum() const;
     void addDest(Vertex<int>* dest);
-    void addVisited(pair<int,string> visit);
+    void addVisited(const pair<int,string> &visit);
     int getMaxCapacity() const;
     int getCurrentCapacity() const;
     void addCurrentCapacity(int capacity);
     void setDestinations(vector<Vertex<int>*> &dests);
+    bool canFit(const Prisoner &p) const;
 };
 
 
