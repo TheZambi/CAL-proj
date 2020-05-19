@@ -3,6 +3,7 @@
 
 #include "Graph.h"
 #include "Prisoner.h"
+#include "Bus.h"
 #include <map>
 
 class BusManager {
@@ -10,6 +11,7 @@ class BusManager {
     vector<Prisoner> prisoners;
     int prisonLocation;
     map<string,vector<pair<int, string>>> tags;
+    vector<Bus*> buses;
 
 
 public:
@@ -26,12 +28,13 @@ public:
     bool addPrisoner(Prisoner prisoner);
     void resetPrisoners();
     vector<pair<int, string>> getTags();
-
+    vector<Bus*> getBuses();
 private:
     void readGraphNodesFromFile(const string& path);
     void readGraphEdgesFromFile(const string& path);
-
     void readGraphTagsFromFile(const string &basicString);
+
+
 };
 
 

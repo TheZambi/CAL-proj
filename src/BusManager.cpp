@@ -18,6 +18,8 @@ BusManager::BusManager(const string &nodePath, const string &edgePath, const str
             {"hospital", {}}
     };
 
+    this->buses = {};
+
     readGraphNodesFromFile(nodePath);
     readGraphEdgesFromFile(edgePath);
     readGraphTagsFromFile(tagsPath);
@@ -122,7 +124,7 @@ vector<vector<int>> BusManager::calcMultipleBusPath(int numBus)
 {
     vector<vector<int>> results;
     bool emptyHeaps = false;
-    vector<Bus*> buses;
+    buses.clear();
 
     for(size_t i = 0 ;i<numBus ; i++){
         vector<Vertex<int>*> dest;
@@ -185,11 +187,11 @@ vector<vector<int>> BusManager::calcMultipleBusPath(int numBus)
                         buses.at(i)->addDest(ignoredVertex);
                     ignoredVertexes.clear();
                 }
-
                 else{
                     buses.at(i)->setLastLocation(currentLocation);
                     i--;
                 }
+                
                 if(hadAction){
                     results[i].insert(results[i].end(), pathToNext.begin(), pathToNext.end());
                 }
@@ -204,13 +206,35 @@ vector<vector<int>> BusManager::calcMultipleBusPath(int numBus)
             if(i==numBus-1)
                 emptyHeaps=true;
         }
-    }
 
+
+    }
 
     for(int i = 0; i < buses.size(); ++i) {
         graph.dijkstraShortestPath(buses.at(i)->getLastLocation());
         vector<int> pathToPrison = graph.getPath(buses.at(i)->getLastLocation(), prisonLocation);
         results[i].insert(results[i].end(), pathToPrison.begin(), pathToPrison.end());
+    }
+
+    //Eliminar os autocarros que não foram usados e adiciona os sítios com tag visitados pelo autocarros
+    for(int i = results.size() - 1; i >= 0; i--) {
+        if(results.at(i).size() <= 1) {
+            buses.erase(buses.begin() + i);
+        }
+        else {
+            int oldRes = -1;
+            for(int res : results.at(i)) {
+                if(res != oldRes) {
+                    for (pair<int, string> tv : this->getTags()) {
+                        if (tv.first == res) {
+                            buses.at(i)->addVisited(tv);
+                            break;
+                        }
+                    }
+                    oldRes = res;
+                }
+            }
+        }
     }
 
     return results;
@@ -282,5 +306,9 @@ vector<pair<int, string>> BusManager::getTags() {
         aux.insert(aux.end(), t.second.begin(), t.second.end());
     }
     return aux;
+}
+
+vector<Bus *> BusManager::getBuses() {
+    return buses;
 }
 

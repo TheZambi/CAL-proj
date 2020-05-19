@@ -135,6 +135,7 @@ void Menu::displayMap() {
     renderer->loadEdges();
     renderer->showBusesPaths(5);
     renderer->update();
+    renderer->printBusesPaths(manager->getBuses());
 }
 
 void Menu::displayBusPath(int busN, int nBus) {

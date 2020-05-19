@@ -1,6 +1,4 @@
 1 prison Hell
-320 train a
-623 train b
 260 court Tribunal_Judicial
 92 airport Aeroporto_Imaginario_de_Espinho
 88 train Estacao_Espinho-Vouga

@@ -42,3 +42,11 @@ void Bus::addDest(Vertex<int>* dest) {
     destinations.push_back(dest);
 }
 
+void Bus::addVisited(pair<int, string> visit) {
+    visited.push_back(visit);
+}
+
+vector<pair<int, string>> Bus::getVisited() {
+    return visited;
+}
+

@@ -17,8 +17,11 @@ int main() {
 //                                  Prisoner(1183721287,1173440023)};
 
 
-    vector<Prisoner> prisoners = {Prisoner(148,430),Prisoner(1, 377), Prisoner(861, 66),
-                                  Prisoner(689, 1)};
+//    vector<Prisoner> prisoners = {Prisoner(148,430),Prisoner(1, 377), Prisoner(861, 66),
+//                                  Prisoner(689, 1)};
+
+    vector<Prisoner> prisoners = {Prisoner(174,1),Prisoner(1, 744), Prisoner(744, 92),
+                                  Prisoner(1, 260)};
 
     BusManager manager = BusManager(NODES_FILE, EDGES_FILE, TAGS_FILE, prisoners);
     Renderer renderer = Renderer(&manager);

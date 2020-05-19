@@ -115,3 +115,16 @@ void Renderer::showBusPath(int busN, int nBus) {
     }
     gv->setVertexColor(manager->getPrisonLocation(), PRISON_COLOR);
 }
+
+void Renderer::printBusesPaths(vector<Bus *> buses) {
+    for(size_t i = 0; i < buses.size(); ++i) {
+        cout << "Bus " << i << endl;
+        for(size_t j = 0; j < buses.at(i)->getVisited().size(); ++j) {
+            if(j < buses.at(i)->getVisited().size() - 1)
+                cout << buses.at(i)->getVisited().at(j).first << ": " << buses.at(i)->getVisited().at(j).second << " -> ";
+            else
+                cout << buses.at(i)->getVisited().at(j).first << ": " << buses.at(i)->getVisited().at(j).second << endl;
+        }
+        cout << endl;
+    }
+}

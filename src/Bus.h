@@ -18,6 +18,10 @@ public:
 
 class Bus {
     vector<Vertex<int>*> destinations;
+    vector<pair<int, string>> visited;
+public:
+    vector<pair<int,string>> getVisited();
+private:
     int last_location;
     busType type;
     int num;
@@ -33,6 +37,7 @@ public:
     void setLastLocation(int location);
     int getNum() const;
     void addDest(Vertex<int>* dest);
+    void addVisited(pair<int,string> visit);
 };
 
 
