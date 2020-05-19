@@ -125,6 +125,7 @@ vector<vector<int>> BusManager::calcMultipleBusPath(){
     bool emptyHeaps = false;
     buses.clear();
     buses = {new Bus(REGULAR,prisonLocation,5), new Bus(REGULAR,prisonLocation,3),
+    buses = {new Bus(REGULAR,prisonLocation,10), new Bus(REGULAR,prisonLocation,3),
              new Bus(REGULAR,prisonLocation,2), new Bus(REGULAR,prisonLocation,1)};
 
     for(auto & bus : buses){
@@ -170,6 +171,10 @@ vector<vector<int>> BusManager::calcMultipleBusPath(){
                             for (auto &prisoner1 : prisoners) {
                                 if (i != j && prisoner1.isPickedUp() && !prisoner1.isDelivered() &&
                                     prisoner1.getBusNum() == j) {
+                            //Se um outro autocarro estiver para entregar um prisioneiro perto de nextDest, este
+                            //ignora este destino para dar prioridade ao outro autocarro
+                            for(auto &prisoner1 : prisoners) {
+                                if(i != j && prisoner1.isPickedUp() && !prisoner1.isDelivered() && prisoner1.getBusNum() == j) {
                                     graph.dijkstraShortestPath(prisoner1.getDestination());
                                     if (nextDest->getDist() < nextDist) {
                                         ignoredVertexes.push_back(nextDest);
