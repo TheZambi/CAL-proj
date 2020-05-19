@@ -7,3 +7,4 @@
 744 train Estacao_de_Espinho
 174 police Esquadra_PSP
 885 hospital Centro_Hospitalar_de_V.N._de_Gaia/Espinho
+486 police Esquadra_GNR

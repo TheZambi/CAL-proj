@@ -125,7 +125,7 @@ vector<vector<int>> BusManager::calcMultipleBusPath(int numBus)
     vector<vector<int>> results;
     bool emptyHeaps = false;
     buses.clear();
-    buses = {new Bus(REGULAR,prisonLocation,1),new Bus(REGULAR,prisonLocation,1)};
+    buses = {new Bus(REGULAR,prisonLocation,5),new Bus(REGULAR,prisonLocation,1),new Bus(REGULAR,prisonLocation,1),new Bus(REGULAR,prisonLocation,1)};
 
     for(auto & buse : buses){
         vector<Vertex<int>*> dest;

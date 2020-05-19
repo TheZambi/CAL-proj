@@ -21,7 +21,7 @@ int main() {
 //                                  Prisoner(689, 1)};
 
     vector<Prisoner> prisoners = {Prisoner(174,1),Prisoner(1, 744), Prisoner(739, 92),
-                                  Prisoner(1, 260)};
+                                  Prisoner(1, 260), Prisoner(486,885)};
 
 //    vector<Prisoner> prisoners = {Prisoner(1,214),Prisoner(1,260)
 //                                 };
