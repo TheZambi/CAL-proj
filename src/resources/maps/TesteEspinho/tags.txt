@@ -7,6 +7,6 @@
 885 hospital Centro_Hospitalar_de_V.N._de_Gaia/Espinho
 742 police Esquadra_GNR
 214 hospital Hospital_Da_Trindade
-739 court Tribunal_da_Justiça
+739 court Tribunal_da_Justica
 630 police Rotunda_dos_PATOS
 793 police Quintos
