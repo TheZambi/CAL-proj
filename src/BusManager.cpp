@@ -163,7 +163,21 @@ vector<vector<int>> BusManager::calcMultipleBusPath(int numBus)
                         int currentBusToNextDestDist = nextDest->getDist();
                         for(size_t j = 0; j < buses.size(); j++ ) {
                             graph.dijkstraShortestPath(buses.at(j)->getLastLocation());
-                            if(i!=j && currentBusToNextDestDist > nextDest->getDist()) {
+                            int nextDist = nextDest->getDist();
+                            bool ignore = false;
+                            for(auto &prisoner1 : prisoners) {
+                                if(i != j && prisoner1.isPickedUp() && !prisoner1.isDelivered() && prisoner1.getBusNum() == j) {
+                                    graph.dijkstraShortestPath(prisoner1.getDestination());
+                                    if(nextDest->getDist() < nextDist) {
+                                        ignoredVertexes.push_back(nextDest);
+                                        ignore = true;
+                                        break;
+                                    }
+                                }
+                            }
+                            if(ignore)
+                                break;
+                            if(i!=j && currentBusToNextDestDist > nextDist) {
                                 ignoredVertexes.push_back(nextDest);
                                 break;
                             }
