@@ -178,7 +178,7 @@ vector<vector<int>> BusManager::calcMultipleBusPath(int numBus)
 
                 bool aux = buses.at(i)->getDestinations().empty();
                 if(hadAction || aux) {
-                    if (aux && !hadAction) {
+                    if (!hadAction) {
                         buses.at(i)->setLastLocation(currentLocation);
                     }
                     for (auto &ignoredVertex : ignoredVertexes)
@@ -186,7 +186,7 @@ vector<vector<int>> BusManager::calcMultipleBusPath(int numBus)
                     ignoredVertexes.clear();
                 }
 
-                if (!hadAction && !aux) {
+                else{
                     buses.at(i)->setLastLocation(currentLocation);
                     i--;
                 }
