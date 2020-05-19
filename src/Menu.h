@@ -25,7 +25,7 @@ private:
     void display();
     void finish();
     void displayMap();
-    void displayBusPath(int busN, int nBus);
+    void displayBusPath(int busN);
 };
 
 

@@ -62,7 +62,7 @@ void Menu::readInput() {
                 case 1:
                     cout << "Bus number: ";
                     cin >> choiceMap;
-                    displayBusPath(choiceMap, 5);
+                    displayBusPath(choiceMap);
                     break;
                 case 2:
                     displayMap();
@@ -133,16 +133,16 @@ void Menu::displayMap() {
     renderer->initWindow();
     renderer->loadVertexes();
     renderer->loadEdges();
-    renderer->showBusesPaths(5);
+    renderer->showBusesPaths();
     renderer->update();
     renderer->printBusesPaths(manager->getBuses());
 }
 
-void Menu::displayBusPath(int busN, int nBus) {
+void Menu::displayBusPath(int busN) {
     renderer->initWindow();
     renderer->loadVertexes();
     renderer->loadEdges();
-    renderer->showBusPath(busN, nBus);
+    renderer->showBusPath(busN);
     renderer->update();
 }
 

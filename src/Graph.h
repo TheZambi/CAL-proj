@@ -9,7 +9,7 @@
 #include <limits>
 #include <algorithm>
 #include <unordered_set>
-#include <math.h>
+#include <cmath>
 #include <iostream>
 #include "MutablePriorityQueue.h"
 

@@ -62,8 +62,8 @@ void Renderer::closeWindow() {
     gv->closeWindow();
 }
 
-void Renderer::showBusesPaths(int nBus) {
-    vector<vector<int>> busesPath = manager->calcMultipleBusPath(nBus);
+void Renderer::showBusesPaths() {
+    vector<vector<int>> busesPath = manager->calcMultipleBusPath();
 
     for(size_t j = 0; j < busesPath.size();++j){
         for(size_t a = 0; a < busesPath.at(j).size(); ++a) {
@@ -90,8 +90,8 @@ void Renderer::showBusesPaths(int nBus) {
     gv->setVertexColor(manager->getPrisonLocation(), PRISON_COLOR);
 }
 
-void Renderer::showBusPath(int busN, int nBus) {
-    vector<vector<int>> busesPath = manager->calcMultipleBusPath(nBus);
+void Renderer::showBusPath(int busN) {
+    vector<vector<int>> busesPath = manager->calcMultipleBusPath();
 
     for(size_t a = 0; a < busesPath.at(busN).size(); ++a) {
         int i = busesPath.at(busN).at(a);

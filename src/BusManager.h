@@ -24,7 +24,7 @@ public:
     double getMinY();
     const vector<Prisoner> &getPrisoners() const;
     int getPrisonLocation() const;
-    vector<vector<int>> calcMultipleBusPath(int numBus);
+    vector<vector<int>> calcMultipleBusPath();
     bool addPrisoner(Prisoner prisoner);
     void resetPrisoners();
     vector<pair<int, string>> getTags();

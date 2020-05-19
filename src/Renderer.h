@@ -33,8 +33,8 @@ public:
     void showBusPath();
 
     void closeWindow();
-    void showBusesPaths(int i);
-    void showBusPath(int busN, int nBus);
+    void showBusesPaths();
+    void showBusPath(int busN);
     void printBusesPaths(vector<Bus*> buses);
 
 };

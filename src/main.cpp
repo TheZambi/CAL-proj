@@ -1,4 +1,3 @@
-#include <iostream>
 #include <string>
 #include "BusManager.h"
 #include "Renderer.h"

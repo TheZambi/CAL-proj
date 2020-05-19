@@ -1,5 +1,4 @@
 #include "BusManager.h"
-#include "Bus.h"
 #include <fstream>
 #include <sstream>
 #include <iostream>
@@ -19,6 +18,7 @@ BusManager::BusManager(const string &nodePath, const string &edgePath, const str
     };
 
     this->buses = {};
+    this->prisonLocation = -1;
 
     readGraphNodesFromFile(nodePath);
     readGraphEdgesFromFile(edgePath);
@@ -47,7 +47,7 @@ void BusManager::readGraphNodesFromFile(const string& path){
             istringstream ss(line);
             ss >> c >> id >> c >> x >> c >> y;
 
-            this->graph.addVertex(id,x,y);
+            this->graph.addVertex(id,(int)x,(int)y);
 
             minX = min(minX, x);
             minY = min(minY, y);
@@ -120,8 +120,7 @@ double BusManager::getMinY() {
     return this->graph.getMinY();
 }
 
-vector<vector<int>> BusManager::calcMultipleBusPath(int numBus)
-{
+vector<vector<int>> BusManager::calcMultipleBusPath(){
     vector<vector<int>> results;
     bool emptyHeaps = false;
     buses.clear();
@@ -161,22 +160,22 @@ vector<vector<int>> BusManager::calcMultipleBusPath(int numBus)
 
                 for (auto &prisoner : prisoners) {
                     if (prisoner.getStart() == buses.at(i)->getLastLocation() && !prisoner.isPickedUp()) {
-                        int currentBusToNextDestDist = nextDest->getDist();
+                        double currentBusToNextDestDist = nextDest->getDist();
                         for(size_t j = 0; j < buses.size(); j++ ) {
                             graph.dijkstraShortestPath(buses.at(j)->getLastLocation());
-                            int nextDist = nextDest->getDist();
-                            bool ignore = false;
+                            double nextDist = nextDest->getDist();
+                            bool ignoreDest = false;
                             for(auto &prisoner1 : prisoners) {
                                 if(i != j && prisoner1.isPickedUp() && !prisoner1.isDelivered() && prisoner1.getBusNum() == j) {
                                     graph.dijkstraShortestPath(prisoner1.getDestination());
                                     if(nextDest->getDist() < nextDist) {
                                         ignoredVertexes.push_back(nextDest);
-                                        ignore = true;
+                                        ignoreDest = true;
                                         break;
                                     }
                                 }
                             }
-                            if(ignore)
+                            if(ignoreDest)
                                 break;
                             if(i!=j && currentBusToNextDestDist > nextDist) {
                                 ignoredVertexes.push_back(nextDest);
@@ -245,19 +244,14 @@ vector<vector<int>> BusManager::calcMultipleBusPath(int numBus)
     for(int i = results.size() - 1; i >= 0; i--) {
         if(results.at(i).size() <= 1) {
             buses.erase(buses.begin() + i);
-        }
-        else {
-            //int oldRes = -1;
+        } else {
             for(int res : results.at(i)) {
-                //if(res != oldRes) {
-                    for (pair<int, string> tv : this->getTags()) {
-                        if (tv.first == res) {
-                            buses.at(i)->addVisited(tv);
-                            break;
-                        }
+                for (const pair<int, string>& tv : this->getTags()) {
+                    if (tv.first == res) {
+                        buses.at(i)->addVisited(tv);
+                        break;
                     }
-                    //oldRes = res;
-                //}
+                }
             }
         }
     }

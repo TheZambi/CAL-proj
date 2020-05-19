@@ -34,10 +34,6 @@ void Bus::setLastLocation(int location) {
     this->last_location = location;
 }
 
-int Bus::getNum() const {
-    return num;
-}
-
 void Bus::addDest(Vertex<int>* dest) {
     destinations.push_back(dest);
 }
@@ -48,15 +44,6 @@ void Bus::addVisited(const pair<int, string> &visit) {
 
 vector<pair<int, string>> Bus::getVisited() {
     return visited;
-}
-
-int Bus::getMaxCapacity() const
-{
-    return maxCapacity;
-}
-
-int Bus::getCurrentCapacity() const {
-    return currentCapacity;
 }
 
 void Bus::addCurrentCapacity(int capacity)
