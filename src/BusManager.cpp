@@ -127,14 +127,14 @@ vector<vector<int>> BusManager::calcMultipleBusPath(){
     buses = {new Bus(REGULAR,prisonLocation,1), new Bus(REGULAR,prisonLocation,3),
              new Bus(REGULAR,prisonLocation,2), new Bus(REGULAR,prisonLocation,1)};
 
-    for(auto & buse : buses){
+    for(auto & bus : buses){
         vector<Vertex<int>*> dest;
         results.emplace_back();
 
         for(const auto & prisoner : prisoners) {
             dest.push_back(graph.findVertex(prisoner.getStart()));
         }
-        buse->setDestinations(dest);
+        bus->setDestinations(dest);
     }
 
 
@@ -230,8 +230,6 @@ vector<vector<int>> BusManager::calcMultipleBusPath(){
             if(i==buses.size()-1)
                 emptyHeaps=true;
         }
-
-
     }
 
     for(int i = 0; i < buses.size(); ++i) {
