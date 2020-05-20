@@ -1,4 +1,7 @@
+#include <iostream>
 #include "Prisoner.h"
+
+using namespace std;
 
 Prisoner::Prisoner(int start, int dest, int danger) {
     this->start = start;
@@ -6,6 +9,7 @@ Prisoner::Prisoner(int start, int dest, int danger) {
     this->pickedUp = false;
     this->delivered = false;
     this->weight = danger;
+    this->any = false;
     busNumber = -1;
 }
 
@@ -41,3 +45,32 @@ void Prisoner::deliver() {
 int Prisoner::getWeight() const {
     return this->weight;
 }
+
+busType Prisoner::getDestType(const map<string,vector<pair<int, string>>> &tags) const  {
+    if(any)
+        return ANY;
+    string type="";
+    for(auto & tag : tags)
+    {
+        for(const auto& dest : tag.second)
+        {
+            if(dest.first==this->destination) {
+                type = tag.first;
+                break;
+            }
+        }
+        if(type!="")
+            break;
+    }
+    if(type=="airport")
+        return AIRPORTS;
+    else if(type == "train")
+        return TRAINS;
+    return REGULAR;
+}
+
+void Prisoner::setAny() {
+    this->any=true;
+}
+
+

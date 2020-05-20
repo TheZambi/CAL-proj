@@ -3,11 +3,6 @@
 #include "Graph.h"
 #include "Prisoner.h"
 
-enum busType {
-    REGULAR,
-    AIRPORTS,
-    TRAINS
-};
 
 class Compare
 {
@@ -45,6 +40,7 @@ public:
     busType getType() const;
     vector<pair<int,string>> getVisited();
     vector<Vertex<int>*> getDestinations() const;
+    bool checkType(Prisoner prisoner,const map<string,vector<pair<int, string>>> &tags) const;
 };
 
 

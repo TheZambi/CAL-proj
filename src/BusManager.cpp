@@ -125,17 +125,33 @@ vector<vector<int>> BusManager::calcMultipleBusPath(){
     bool emptyHeaps = false;
     buses.clear();
     buses = {new Bus(REGULAR,prisonLocation,10), new Bus(REGULAR,prisonLocation,3),
-             new Bus(REGULAR,prisonLocation,2), new Bus(REGULAR,prisonLocation,1)};
+             new Bus(TRAINS,prisonLocation,2), new Bus(REGULAR,prisonLocation,1)};
+
+    for(Prisoner & prisoner : prisoners)
+    {
+        bool hasBus = false;
+        for(auto & bus : buses) {
+            if(bus->checkType(prisoner, this->tags)) {
+                hasBus = true;
+                break;
+            }
+        }
+        if(!hasBus) {
+            prisoner.setAny();
+        }
+    }
 
     for(auto & bus : buses){
         vector<Vertex<int>*> dest;
         results.emplace_back();
 
         for(const auto & prisoner : prisoners) {
-            dest.push_back(graph.findVertex(prisoner.getStart()));
+            if(bus->checkType(prisoner, this->tags))
+                dest.push_back(graph.findVertex(prisoner.getStart()));
         }
         bus->setDestinations(dest);
     }
+
 
 
     while(!emptyHeaps)
@@ -161,7 +177,8 @@ vector<vector<int>> BusManager::calcMultipleBusPath(){
                 for (auto &prisoner : prisoners) {
                     if(prisoner.getWeight() > buses.at(i)->getMaxCapacity())
                         continue;
-                    if (prisoner.getStart() == buses.at(i)->getLastLocation() && !prisoner.isPickedUp()) {
+                    if (prisoner.getStart() == buses.at(i)->getLastLocation() && !prisoner.isPickedUp()
+                    && buses.at(i)->checkType(prisoner,this->tags)) {
                         double currentBusToNextDestDist = nextDest->getDist();
                         for (size_t j = 0; j < buses.size(); j++) {
                             graph.dijkstraShortestPath(buses.at(j)->getLastLocation());
@@ -171,7 +188,7 @@ vector<vector<int>> BusManager::calcMultipleBusPath(){
                             //ignora este destino para dar prioridade ao outro autocarro
                             for(auto &prisoner1 : prisoners) {
                                 if(i != j && prisoner1.isPickedUp() && !prisoner1.isDelivered()
-                                && prisoner1.getBusNum() == j) {
+                                && prisoner1.getBusNum() == j && buses.at(j)->checkType(prisoner1,this->tags)) {
                                     graph.dijkstraShortestPath(prisoner1.getDestination());
                                     if (nextDest->getDist() < nextDist) {
                                         ignoredVertexes.push_back(nextDest);
@@ -182,7 +199,7 @@ vector<vector<int>> BusManager::calcMultipleBusPath(){
                             }
                             if (ignoreDest)
                                 break;
-                            if (i != j && currentBusToNextDestDist > nextDist) {
+                            if (i != j && currentBusToNextDestDist > nextDist && buses.at(j)->checkType(prisoner,this->tags)) {
                                 ignoredVertexes.push_back(nextDest);
                                 break;
                             } else if (j == buses.size() - 1) {

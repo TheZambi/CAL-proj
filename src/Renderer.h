@@ -22,7 +22,7 @@ class Renderer {
 
     vector<pair<int,int>> edges;
 
-    const string path_color[6] = {ORANGE,GREEN,PINK,YELLOW,CYAN,GRAY};
+    const string path_color[5] = {ORANGE,GREEN,PINK,CYAN,GRAY};
 
 public:
     Renderer(BusManager* manager);

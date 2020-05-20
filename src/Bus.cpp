@@ -64,3 +64,6 @@ int Bus::getMaxCapacity() const {
     return maxCapacity;
 }
 
+bool Bus::checkType(Prisoner prisoner,const map<string,vector<pair<int, string>>> &tags) const{
+    return prisoner.getDestType(tags) == this->type || prisoner.getDestType(tags) == ANY;
+}
