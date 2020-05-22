@@ -120,6 +120,22 @@ double BusManager::getMinY() {
     return this->graph.getMinY();
 }
 
+bool BusManager::hasPath(Prisoner prisoner) //Checks if its possible to pick up the prisoner, deliver him/her, and then return to the prison
+{
+    graph.dijkstraShortestPath(prisonLocation);
+    if(graph.getPath(prisonLocation, prisoner.getStart()).empty()) //Checks if there is at least one path to pick up the prisoner
+        return false;
+    if(graph.getPath(prisonLocation, prisoner.getDestination()).empty())//Checks if there is at least one path to deliver the prisoner
+        return false;
+    graph.dijkstraShortestPath(prisoner.getStart());
+    if(graph.getPath(prisoner.getStart(), prisonLocation).empty())
+        return false;
+    graph.dijkstraShortestPath(prisoner.getDestination());
+
+    return !graph.getPath(prisoner.getDestination(), prisonLocation).empty();
+
+}
+
 vector<vector<int>> BusManager::calcMultipleBusPath(){
     vector<vector<int>> results;
     bool emptyHeaps = false;
@@ -146,7 +162,7 @@ vector<vector<int>> BusManager::calcMultipleBusPath(){
         results.emplace_back();
 
         for(const auto & prisoner : prisoners) {
-            if(bus->checkType(prisoner, this->tags))
+            if(bus->checkType(prisoner, this->tags) && hasPath(prisoner))
                 dest.push_back(graph.findVertex(prisoner.getStart()));
         }
         bus->setDestinations(dest);

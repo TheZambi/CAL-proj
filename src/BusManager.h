@@ -33,6 +33,7 @@ private:
     void readGraphNodesFromFile(const string& path);
     void readGraphEdgesFromFile(const string& path);
     void readGraphTagsFromFile(const string &basicString);
+    bool hasPath(Prisoner prisoner);
 
 
 };
