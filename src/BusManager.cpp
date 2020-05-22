@@ -147,7 +147,7 @@ vector<vector<int>> BusManager::calcMultipleBusPath(){
     {
         bool hasBus = false;
         for(auto & bus : buses) {
-            if(bus->checkType(prisoner, this->tags) && bus->getMaxCapacity() >= prisoner.getWeight()) {
+            if(bus->checkType(prisoner, this->tags) && bus->canFit(prisoner)) {
                 hasBus = true;
                 break;
             }
