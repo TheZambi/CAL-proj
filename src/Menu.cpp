@@ -139,6 +139,7 @@ void Menu::displayMap() {
     renderer->showBusesPaths();
     renderer->update();
     renderer->printBusesPaths(manager->getBuses());
+    cout << endl << "Insert any character to continue" << endl;
 }
 
 void Menu::displayBusPath(int busN) {

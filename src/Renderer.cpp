@@ -117,6 +117,7 @@ void Renderer::showBusPath(int busN) {
 }
 
 void Renderer::printBusesPaths(vector<Bus *> buses) {
+    cout << "Buses size: " << buses.size() << endl;
     for(size_t i = 0; i < buses.size(); ++i) {
         cout << "Bus " << i << endl;
         for(size_t j = 0; j < buses.at(i)->getVisited().size(); ++j) {

@@ -39,6 +39,7 @@ public:
     int getBusNum() const;
     busType getDestType(const map<string,vector<pair<int, string>>> &tags) const;
     void setAny();
+    void reset();
 
 };
 

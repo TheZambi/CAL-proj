@@ -73,4 +73,11 @@ void Prisoner::setAny() {
     this->any=true;
 }
 
+void Prisoner::reset() {
+    this->any = false;
+    this->delivered = false;
+    this->pickedUp = false;
+    this->busNumber = -1;
+}
+
 

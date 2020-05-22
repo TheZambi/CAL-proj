@@ -145,10 +145,10 @@ vector<vector<int>> BusManager::calcMultipleBusPath(){
     buses = {new Bus(REGULAR,prisonLocation,10), new Bus(REGULAR,prisonLocation,3),
              new Bus(TRAINS,prisonLocation,2), new Bus(REGULAR,prisonLocation,1)};
 
-
     //Verificar se para cada prisioneiro ha um autocarro do seu tipo e se houver se este cabe nele
     for(Prisoner & prisoner : prisoners)
     {
+        prisoner.reset();
         bool hasBus = false;
         for(auto & bus : buses) {
             if(bus->checkType(prisoner, this->tags) && bus->canFit(prisoner)) {
