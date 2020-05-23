@@ -136,7 +136,6 @@ bool BusManager::hasPath(Prisoner prisoner) //Checks if its possible to pick up 
     if(graph.getPath(prisoner.getStart(), prisonLocation).empty())
         return false;
     graph.dijkstraShortestPath(prisoner.getDestination());
-
     return !graph.getPath(prisoner.getDestination(), prisonLocation).empty();
 
 }
@@ -171,9 +170,15 @@ vector<vector<int>> BusManager::calcMultipleBusPath(){
         vector<Vertex<int>*> dest;
         results.emplace_back();
 
-        for(const auto & prisoner : prisoners) {
-            if(bus->checkType(prisoner, this->tags) && hasPath(prisoner))
-                dest.push_back(graph.findVertex(prisoner.getStart()));
+        for(int i = 0; i< prisoners.size();i++) {
+            if(hasPath(prisoners.at(i))) {
+                if (bus->checkType(prisoners.at(i), this->tags))
+                    dest.push_back(graph.findVertex(prisoners.at(i).getStart()));
+            } else {
+                prisoners.erase(prisoners.begin()+i);
+                i--;
+            }
+
         }
         bus->setDestinations(dest);
     }

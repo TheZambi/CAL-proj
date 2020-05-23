@@ -94,7 +94,6 @@ void Renderer::showBusesPaths() {
         }
     }
     gv->setVertexColor(manager->getPrisonLocation(), PRISON_COLOR);
-    gv->setVertexColor(428, CYAN);
 }
 
 void Renderer::showBusPath(int busN) {

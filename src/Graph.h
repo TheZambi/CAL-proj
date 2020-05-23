@@ -331,6 +331,10 @@ inline bool Graph<T>::relax(Vertex<T> *v, Vertex<T> *w, double weight) {
 
 template<class T>
 void Graph<T>::dijkstraShortestPath(const T &origin) {
+    for(Vertex<T>* v : vertexSet)
+    {
+        v->path=NULL;
+    }
 	auto s = initSingleSource(origin);
 	MutablePriorityQueue<Vertex<T>> q;
 	q.insert(s);
