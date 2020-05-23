@@ -1,3 +1,4 @@
+#include <sstream>
 #include "Menu.h"
 
 Menu::Menu(BusManager *busManager, Renderer *renderer) {

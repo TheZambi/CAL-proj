@@ -4,10 +4,10 @@
 #include <iostream>
 #include <algorithm>
 
-BusManager::BusManager(const string &nodePath, const string &edgePath, const string &tagsPath, vector<Prisoner> &prisoners) {
+BusManager::BusManager(const string &nodePath, const string &edgePath, const string &tagsPath) {
 
     this->graph = Graph<int>();
-    this->prisoners = prisoners;
+    this->prisoners = {};
     this->tags = {
             {"prison", {}},
             {"airport",{}},
@@ -18,12 +18,17 @@ BusManager::BusManager(const string &nodePath, const string &edgePath, const str
     };
 
     this->buses = {};
+
     this->prisonLocation = -1;
 
     readGraphNodesFromFile(nodePath);
     readGraphEdgesFromFile(edgePath);
     readGraphTagsFromFile(tagsPath);
+
+    this->readData();
 }
+
+
 
 void BusManager::readGraphNodesFromFile(const string& path){
 
@@ -139,11 +144,11 @@ bool BusManager::hasPath(Prisoner prisoner) //Checks if its possible to pick up 
 vector<vector<int>> BusManager::calcMultipleBusPath(){
     vector<vector<int>> results;
     bool emptyHeaps = false;
-    buses.clear();
+    //buses.clear();
 
     //Lista de autocarros disponiveis
-    buses = {new Bus(REGULAR,prisonLocation,10), new Bus(REGULAR,prisonLocation,3),
-             new Bus(TRAINS,prisonLocation,2), new Bus(REGULAR,prisonLocation,1)};
+    //buses = {new Bus(REGULAR,prisonLocation,10), new Bus(REGULAR,prisonLocation,3),
+    //        new Bus(TRAINS,prisonLocation,2), new Bus(REGULAR,prisonLocation,1)};
 
     //Verificar se para cada prisioneiro ha um autocarro do seu tipo e se houver se este cabe nele
     for(Prisoner & prisoner : prisoners)
@@ -368,5 +373,45 @@ vector<pair<int, string>> BusManager::getTags() {
 
 vector<Bus *> BusManager::getBuses() {
     return buses;
+}
+
+void BusManager::reset() {
+    this->prisoners.clear();
+    this->buses.clear();
+}
+
+void BusManager::readData() {
+    this->reset();
+
+    string line;
+    int start, dest, danger;
+    char c;
+    ifstream in("../src/resources/prisoners.txt");
+    getline(in, line);
+    while(getline(in, line)) {
+        istringstream ss(line);
+        ss >> start >> c >> dest >> c >> danger;
+        prisoners.emplace_back(start, dest, danger);
+    }
+
+
+    int capacity;
+    string typeStr;
+    busType type;
+    in = ifstream("../src/resources/buses.txt");
+    getline(in, line);
+    while(getline(in, line)) {
+        istringstream ss(line);
+        ss >> capacity >> c >> typeStr;
+        if(typeStr == "regular")
+            type = REGULAR;
+        else if(typeStr == "airports")
+            type = AIRPORTS;
+        else
+            type = TRAINS;
+        buses.push_back(new Bus(type, this->prisonLocation, capacity));
+    }
+
+
 }
 

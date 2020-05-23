@@ -16,7 +16,7 @@ class BusManager {
 
 public:
 
-    BusManager(const string &nodePath, const string &edgePath,const string &tagPath, vector<Prisoner> &prisoners);
+    BusManager(const string &nodePath, const string &edgePath,const string &tagPath);
     vector<int> calcBusPath();
 
     vector<Vertex<int>*> getVertexSet();
@@ -29,6 +29,9 @@ public:
     void resetPrisoners();
     vector<pair<int, string>> getTags();
     vector<Bus*> getBuses();
+    void readData();
+    void reset();
+
 private:
     void readGraphNodesFromFile(const string& path);
     void readGraphEdgesFromFile(const string& path);
