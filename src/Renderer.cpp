@@ -1,5 +1,6 @@
 #include "Renderer.h"
 #include <vector>
+#include <chrono>
 
 Renderer::Renderer(BusManager* manager) {
     this->manager = manager;
@@ -63,7 +64,12 @@ void Renderer::closeWindow() {
 }
 
 void Renderer::showBusesPaths() {
+
+    std::chrono::steady_clock::time_point begin = std::chrono::steady_clock::now();
     vector<vector<int>> busesPath = manager->calcMultipleBusPath();
+    std::chrono::steady_clock::time_point end = std::chrono::steady_clock::now();
+
+    cout << "Tempo(ms): " << chrono::duration_cast<chrono::milliseconds>(end-begin).count() << endl;
 
     for(size_t j = 0; j < busesPath.size();++j){
         for(size_t a = 0; a < busesPath.at(j).size(); ++a) {
@@ -88,6 +94,7 @@ void Renderer::showBusesPaths() {
         }
     }
     gv->setVertexColor(manager->getPrisonLocation(), PRISON_COLOR);
+    gv->setVertexColor(428, CYAN);
 }
 
 void Renderer::showBusPath(int busN) {

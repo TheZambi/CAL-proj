@@ -1,5 +1,2 @@
 capacity,type
 10,regular
-3,regular
-2,trains
-1,regular

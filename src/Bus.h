@@ -2,6 +2,7 @@
 #define CAL_PROJ_BUS_H
 #include "Graph.h"
 #include "Prisoner.h"
+#include <map>
 
 
 class Compare
