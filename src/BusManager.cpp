@@ -407,8 +407,14 @@ void BusManager::readData() {
             type = REGULAR;
         else if(typeStr == "airports")
             type = AIRPORTS;
-        else
+        else if(typeStr == "any")
+            type = ANY;
+        else if(typeStr == "trains")
             type = TRAINS;
+        else {
+            cout << "Invalid bus type!" << endl;
+            continue;
+        }
         buses.push_back(new Bus(type, this->prisonLocation, capacity));
     }
 
