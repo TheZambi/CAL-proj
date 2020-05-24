@@ -10,6 +10,7 @@ class Menu {
     enum State {
         MAIN,
         PRISONER,
+        BUS,
         MAP
     } state;
     bool finished;

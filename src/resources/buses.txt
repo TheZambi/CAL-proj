@@ -1,2 +1,16 @@
 capacity,type
-10,regular
+30,regular
+30,regular
+30,regular
+30,regular
+30,regular
+30,regular
+30,regular
+30,regular
+30,regular
+30,regular
+30,regular
+30,regular
+30,regular
+30,regular
+30,regular

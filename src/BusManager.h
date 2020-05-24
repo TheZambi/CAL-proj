@@ -26,7 +26,9 @@ public:
     int getPrisonLocation() const;
     vector<vector<int>> calcMultipleBusPath();
     bool addPrisoner(Prisoner prisoner);
+    void addBus(Bus *bus);
     void resetPrisoners();
+    void resetBuses();
     vector<pair<int, string>> getTags();
     vector<Bus*> getBuses();
     void readData();

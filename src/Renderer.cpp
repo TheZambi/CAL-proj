@@ -82,13 +82,13 @@ void Renderer::showBusesPaths() {
                        manager->getPrisoners().end()) {
                 gv->setVertexColor(i, PATH_END);
             } else {
-                gv->setVertexColor(i, path_color[j]);
+                gv->setVertexColor(i, path_color[j % path_color->size()]);
             }
 
             if(a < busesPath.at(j).size() - 1) {
                 int idx = distance(edges.begin(),
                                    find(edges.begin(), edges.end(), pair<int, int>{i, busesPath.at(j).at(a + 1)})); //Gets the edge id
-                gv->setEdgeColor(idx, path_color[j]);
+                gv->setEdgeColor(idx, path_color[j % path_color->size()]);
                 gv->setEdgeThickness(idx, 5);
             }
         }

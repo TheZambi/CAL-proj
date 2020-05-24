@@ -364,8 +364,16 @@ bool BusManager::addPrisoner(Prisoner prisoner) {
     return true;
 }
 
+void BusManager::addBus(Bus *bus) {
+    this->buses.push_back(bus);
+}
+
 void BusManager::resetPrisoners() {
     this->prisoners = {};
+}
+
+void BusManager::resetBuses() {
+    this->buses = {};
 }
 
 vector<pair<int, string>> BusManager::getTags() {
