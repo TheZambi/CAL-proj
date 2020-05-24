@@ -30,12 +30,12 @@ public:
     void loadVertexes();
     void loadEdges();
     void update();
-    void showBusPath();
+//    void showBusPath();
 
     void closeWindow();
     void showBusesPaths();
     void showBusPath(int busN);
-    void printBusesPaths(vector<Bus*> buses);
+    static void printBusesPaths(vector<Bus*> buses);
 
 };
 

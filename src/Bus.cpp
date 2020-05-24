@@ -11,10 +11,6 @@ vector<Vertex<int>*> Bus::getDestinations() const {
     return destinations;
 }
 
-busType Bus::getType() const {
-    return type;
-}
-
 void Bus::startHeap() {
     make_heap(destinations.begin(), destinations.end(), Compare());
 }

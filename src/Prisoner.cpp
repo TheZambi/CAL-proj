@@ -49,7 +49,7 @@ int Prisoner::getWeight() const {
 busType Prisoner::getDestType(const map<string,vector<pair<int, string>>> &tags) const  {
     if(any)
         return ANY;
-    string type="";
+    string type;
     for(auto & tag : tags)
     {
         for(const auto& dest : tag.second)
@@ -59,7 +59,7 @@ busType Prisoner::getDestType(const map<string,vector<pair<int, string>>> &tags)
                 break;
             }
         }
-        if(type!="")
+        if(!type.empty())
             break;
     }
     if(type=="airport")

@@ -143,11 +143,7 @@ bool BusManager::hasPath(Prisoner prisoner) //Checks if its possible to pick up 
 vector<vector<int>> BusManager::calcMultipleBusPath(){
     vector<vector<int>> results;
     bool emptyHeaps = false;
-    //buses.clear();
 
-    //Lista de autocarros disponiveis
-    //buses = {new Bus(REGULAR,prisonLocation,10), new Bus(REGULAR,prisonLocation,3),
-    //        new Bus(TRAINS,prisonLocation,2), new Bus(REGULAR,prisonLocation,1)};
 
     //Verificar se para cada prisioneiro ha um autocarro do seu tipo e se houver se este cabe nele
     for(Prisoner & prisoner : prisoners)
@@ -193,7 +189,6 @@ vector<vector<int>> BusManager::calcMultipleBusPath(){
 
             if (!buses.at(i)->getDestinations().empty()) {
                 bool hadAction = false;
-                vector<Vertex<int> *> temp;
 
                 //Calculo do caminho para o proximo destino
                 graph.dijkstraShortestPath(buses.at(i)->getLastLocation());

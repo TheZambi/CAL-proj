@@ -16,7 +16,7 @@ void Renderer::initWindow(){
 
 void Renderer::loadVertexes(){
     for(auto v : this->manager->getVertexSet()){
-        gv->addNode(v->getInfo(), v->getX() - manager->getMinX(), v->getY() - manager->getMinY());
+        gv->addNode(v->getInfo(), (int)(v->getX() - manager->getMinX()), (int)(v->getY() - manager->getMinY()));
         gv->setVertexLabel(v->getInfo(),to_string(v->getInfo()));
     }
 }
@@ -36,28 +36,28 @@ void Renderer::update() {
     this->gv->rearrange();
 }
 
-void Renderer::showBusPath() {
-    vector<int> path = manager->calcBusPath();
-    for(size_t i = 0 ; i < path.size(); ++i) {
-        size_t j = path.at(i);
-        if(j == manager->getPrisonLocation()){
-            gv->setVertexColor(j, PRISON_COLOR);
-        } else if(find_if(manager->getPrisoners().begin(),manager->getPrisoners().end(), [j] (const Prisoner& p) { return p.getStart() == j; }) != manager->getPrisoners().end()){
-            gv->setVertexColor(j, PATH_START);
-        } else if(find_if(manager->getPrisoners().begin(),manager->getPrisoners().end(), [j] (const Prisoner& p) { return p.getDestination() == j; }) != manager->getPrisoners().end()){
-            gv->setVertexColor(j, PATH_END);
-        } else {
-            gv->setVertexColor(j, path_color[0]);
-        }
-
-
-        if(i < path.size() - 1) {
-            int idx = distance(edges.begin(),
-                               find(edges.begin(), edges.end(), pair<int, int>{j, path.at(i + 1)})); //Gets the edge id
-            gv->setEdgeColor(idx, path_color[0]);
-        }
-    }
-}
+//void Renderer::showBusPath() {  //old function
+//    vector<int> path = manager->calcBusPath();
+//    for(size_t i = 0 ; i < path.size(); ++i) {
+//        size_t j = path.at(i);
+//        if(j == manager->getPrisonLocation()){
+//            gv->setVertexColor(j, PRISON_COLOR);
+//        } else if(find_if(manager->getPrisoners().begin(),manager->getPrisoners().end(), [j] (const Prisoner& p) { return p.getStart() == j; }) != manager->getPrisoners().end()){
+//            gv->setVertexColor(j, PATH_START);
+//        } else if(find_if(manager->getPrisoners().begin(),manager->getPrisoners().end(), [j] (const Prisoner& p) { return p.getDestination() == j; }) != manager->getPrisoners().end()){
+//            gv->setVertexColor(j, PATH_END);
+//        } else {
+//            gv->setVertexColor(j, path_color[0]);
+//        }
+//
+//
+//        if(i < path.size() - 1) {
+//            int idx = distance(edges.begin(),
+//                               find(edges.begin(), edges.end(), pair<int, int>{j, path.at(i + 1)})); //Gets the edge id
+//            gv->setEdgeColor(idx, path_color[0]);
+//        }
+//    }
+//}
 
 void Renderer::closeWindow() {
     gv->closeWindow();

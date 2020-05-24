@@ -38,7 +38,6 @@ public:
     bool canFit(const Prisoner &p) const;
     int getLastLocation() const;
     int getMaxCapacity() const;
-    busType getType() const;
     vector<pair<int,string>> getVisited();
     vector<Vertex<int>*> getDestinations() const;
     bool checkType(Prisoner prisoner,const map<string,vector<pair<int, string>>> &tags) const;
