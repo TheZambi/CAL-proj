@@ -63,3 +63,11 @@ int Bus::getMaxCapacity() const {
 bool Bus::checkType(Prisoner prisoner,const map<string,vector<pair<int, string>>> &tags) const{
     return prisoner.getDestType(tags) == this->type || prisoner.getDestType(tags) == ANY;
 }
+
+void Bus::reset(int prison) {
+    this->destinations = {};
+    this->visited = {};
+    this->last_location = prison;
+    this->currentCapacity = 0;
+
+}

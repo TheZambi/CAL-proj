@@ -41,6 +41,7 @@ public:
     vector<pair<int,string>> getVisited();
     vector<Vertex<int>*> getDestinations() const;
     bool checkType(Prisoner prisoner,const map<string,vector<pair<int, string>>> &tags) const;
+    void reset(int prison);
 };
 
 

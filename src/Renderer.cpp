@@ -65,11 +65,7 @@ void Renderer::closeWindow() {
 
 void Renderer::showBusesPaths() {
 
-    std::chrono::steady_clock::time_point begin = std::chrono::steady_clock::now();
     vector<vector<int>> busesPath = manager->calcMultipleBusPath();
-    std::chrono::steady_clock::time_point end = std::chrono::steady_clock::now();
-
-    cout << "Tempo(ms): " << chrono::duration_cast<chrono::milliseconds>(end-begin).count() << endl;
 
     for(size_t j = 0; j < busesPath.size();++j){
         for(size_t a = 0; a < busesPath.at(j).size(); ++a) {
@@ -122,16 +118,34 @@ void Renderer::showBusPath(int busN) {
     gv->setVertexColor(manager->getPrisonLocation(), PRISON_COLOR);
 }
 
-void Renderer::printBusesPaths(vector<Bus *> buses) {
-    cout << "Buses size: " << buses.size() << endl;
+void Renderer::printBusesPaths(vector<Bus *> buses, int n) {
+    cout << "Buses size: " << buses.size() << endl << endl;
     for(size_t i = 0; i < buses.size(); ++i) {
-        cout << "Bus " << i << endl;
-        for(size_t j = 0; j < buses.at(i)->getVisited().size(); ++j) {
-            if(j < buses.at(i)->getVisited().size() - 1)
-                cout << buses.at(i)->getVisited().at(j).first << ": " << buses.at(i)->getVisited().at(j).second << " -> ";
-            else
-                cout << buses.at(i)->getVisited().at(j).first << ": " << buses.at(i)->getVisited().at(j).second << endl;
+        if(i == n || n == -1) {
+            cout << "Bus " << i << endl;
+            for (size_t j = 0; j < buses.at(i)->getVisited().size(); ++j) {
+                if (j < buses.at(i)->getVisited().size() - 1)
+                    cout << buses.at(i)->getVisited().at(j).first << ": " << buses.at(i)->getVisited().at(j).second
+                         << " -> ";
+                else
+                    cout << buses.at(i)->getVisited().at(j).first << ": " << buses.at(i)->getVisited().at(j).second
+                         << endl;
+            }
+            cout << endl;
         }
-        cout << endl;
     }
 }
+
+void Renderer::clean() {
+    for(auto v : this->manager->getVertexSet()){
+        gv->setVertexColor(v->getInfo(), BLUE);
+        for (auto e : v->getAdj()) {
+            int idx = distance(edges.begin(),
+                               find(edges.begin(), edges.end(), pair<int, int>{v->getInfo(), e.getDest()->getInfo()})); //Gets the edge id
+            gv->setEdgeColor(idx, BLUE);
+            gv->setEdgeThickness(idx, 1);
+        }
+    }
+
+}
+

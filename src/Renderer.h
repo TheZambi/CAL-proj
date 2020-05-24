@@ -35,7 +35,8 @@ public:
     void closeWindow();
     void showBusesPaths();
     void showBusPath(int busN);
-    static void printBusesPaths(vector<Bus*> buses);
+    static void printBusesPaths(vector<Bus*> buses, int n);
+    void clean();
 
 };
 

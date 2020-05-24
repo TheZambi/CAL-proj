@@ -383,13 +383,13 @@ vector<Bus *> BusManager::getBuses() {
     return buses;
 }
 
-void BusManager::reset() {
+void BusManager::clear() {
     this->prisoners.clear();
     this->buses.clear();
 }
 
 void BusManager::readData() {
-    this->reset();
+    this->clear();
 
     string line;
     int start, dest, danger;
@@ -401,7 +401,6 @@ void BusManager::readData() {
         ss >> start >> c >> dest >> c >> danger;
         prisoners.emplace_back(start, dest, danger);
     }
-
 
     int capacity;
     string typeStr;
@@ -425,7 +424,15 @@ void BusManager::readData() {
         }
         buses.push_back(new Bus(type, this->prisonLocation, capacity));
     }
-
-
 }
+
+void BusManager::reset() {
+    for(auto p : prisoners) {
+        p.reset();
+    }
+    for(auto b : buses) {
+        b->reset(prisonLocation);
+    }
+}
+
 

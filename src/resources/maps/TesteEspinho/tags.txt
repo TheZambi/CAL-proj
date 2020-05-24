@@ -1,4 +1,4 @@
-1 prison Hell
+1 prison Prisao de Espinho
 260 court Tribunal_Judicial
 92 airport Aeroporto_Imaginario_de_Espinho
 88 train Estacao_Espinho-Vouga
@@ -9,5 +9,5 @@
 742 police Esquadra_GNR
 214 hospital Hospital_Da_Trindade
 739 court Tribunal_da_Justica
-630 police Rotunda_dos_PATOS
-793 police Quintos
+630 police Esquadra_Rotunda_dos_Patos
+793 police Departamento_Zona_Norte

@@ -32,6 +32,7 @@ public:
     vector<pair<int, string>> getTags();
     vector<Bus*> getBuses();
     void readData();
+    void clear();
     void reset();
 
 private:
