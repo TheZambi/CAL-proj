@@ -259,6 +259,7 @@ vector<vector<int>> BusManager::calcMultipleBusPath(){
                     i--;
                 }
 
+                //Se o autocarro efetivamente recolheu ou entregou algum prisioneiro, os resultados são inseridos
                 if (hadAction) {
                     if (results[i].empty())
                         results[i].insert(results[i].end(), pathToNext.begin(), pathToNext.end());
@@ -303,6 +304,7 @@ vector<vector<int>> BusManager::calcMultipleBusPath(){
     return results;
 }
 
+//Função usada numa iteração anterior
 vector<int> BusManager::calcBusPath() {
     vector<int> result;
     int last_location = prisonLocation;
@@ -388,7 +390,7 @@ void BusManager::clear() {
     this->buses.clear();
 }
 
-void BusManager::readData() {
+void BusManager::readData() { //Lê os ficheiros de prisioneiros e autocarros
     this->clear();
 
     string line;
