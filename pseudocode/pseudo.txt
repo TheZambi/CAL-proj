@@ -2,26 +2,37 @@
 \usepackage{algorithm}
 \usepackage{algcompatible}
 
+
 \begin{document}
 \begin{algorithm}
-\begin{algorithmic} [1]
+\caption{Calculate best paths for buses}
 
+\label{alg:CalcBusesPath}
+
+\begin{algorithmic} [1]
+\STATE {Input: prisioners, buses, graph}
+\STATE {Output: paths of all buses}\\
+
+\STATE $results$ $\gets$ [ ]
 \FORALL{\texttt{prisoners}}
-\STATE verify bus for prisoner by type
-\IF{no bus for required type}
-\STATE\texttt{setType($prisoner$, $any$)}
+\IF{!findBusType($prisoner$)}
+\STATE\texttt{setType($prisoner$, 'Any')}
 \ENDIF
-\ENDFOR
+\ENDFOR\\
 
 \FORALL{\texttt{buses}}
 \STATE $destinations$ $\gets$ [ ]
 \FORALL{\texttt{prisoners}}
-\IF{hasPath($bus$,$prisoner$) and checkType($bus$,$prisoner$)}
+\IF{hasPath($bus$,$prisoner$)}
+\IF{checkType($bus$,$prisoner$)}
 \STATE \texttt{add($destinations$, $prisoner$)}
 \ENDIF
+\ELSE
+\STATE erase($prisoner$)
+\ENDIF
 \ENDFOR
-\STATE $busDestinations$ $\gets$ $destinations$
-\ENDFOR
+\STATE $bus.destinations$ $\gets$ $destinations$
+\ENDFOR\\
 
 \WHILE{any bus destinations not empty}
 
@@ -29,32 +40,32 @@
 
 \FORALL{buses}
 
-\IF{!empty($busDestinations$)} 
+\IF{!empty($bus.destinations$)} 
 \STATE $hadAction$ $\gets$ false
-\STATE dijkstra($busLocation$)
-\STATE $nextDest$ $\gets$ pop($busDestinations$)
-\STATE $pathToNext$ $\gets$ getPath($busLocation$, $nextDest$)
-\STATE $currentLocation$ $\gets$ $busLocation$
-\STATE $busLocation$ $\gets$ $nextDest$
+\STATE dijkstra($bus.location$)
+\STATE $nextDest$ $\gets$ pop($bus.destinations$)
+\STATE $pathToNext$ $\gets$ getPath($bus.location$, $nextDest$)
+\STATE $currentLocation$ $\gets$ $bus.location$
+\STATE $bus.location$ $\gets$ $nextDest$
 
 
 \STATE prisonerLoop:
 \FORALL{\texttt{prisoners}}
-\IF{$prisionerWeight > busCapacity$}
+\IF{$prisioner.weight > bus.capacity$}
 \STATE \textbf{go to} \emph{prisonerLoop}
 \ENDIF
-\IF{$prisionerStart$ = $busLocation$ and !pickedUp($prisoner$) and checkType($bus$,$prisoner$)}
+\IF{$prisioner.start$ = $bus.location$ and !pickedUp($prisoner$) and checkType($bus$,$prisoner$)}
 \STATE $currentNextDist$ $\gets$ dist($nextDest$)
 
 \FORALL{buses as $bus2$}
-\STATE djikstra($bus2Location$)
+\STATE djikstra($bus2.location$)
 \STATE $nextDist$ $\gets$ dist($nextDest$)
 \STATE $ignoreDest$ $\gets$ false
 
 \FORALL{\texttt{prisoners as $prisoner1$}}
-\IF{$bus$ != $bus2$ and pickedUp($prisoner1$) and !delivered($prisoner1$) and getBus($prisoner1$) = $bus2$ and checkType($bus2$,$prisoner1$)}
+\IF{$bus$!=$bus2$ and pickedUp($prisoner1$) and !delivered($prisoner1$) and getBus($prisoner1$)=$bus2$ and checkType($bus2$,$prisoner1$)}
 \STATE dijkstra(destination($prisoner1$))
-\IF{dist($nextDest$) < $nextDist$}
+\IF{dist($nextDest$)$<nextDist$}
 \STATE add($ignoredVertexes$, $nextDest$)
 \STATE $ignoreDest$ $\gets$ true
 \STATE \textbf{break loop}
@@ -67,7 +78,7 @@
 \end{algorithmic}
 \end{algorithm}
 
-\begin{algorithm}
+\begin{algorithm} 
 \begin{algorithmic} [1]
 \algrestore{myalg}
 
@@ -77,36 +88,36 @@
 \ENDIF
 
 
-\IF{$bus$ != $bus2$ and $currentNextDist > nextDist$ and checkType($bus2$,$prisoner$}
+\IF{$bus$!=$bus2$ and $currentNextDist$ $>nextDist$ and checkType($bus2$,$prisoner$)}
 \STATE add($ignoredVertexes$,$nextDest$)
 \STATE \textbf{break loop}
 \ELSIF{$bus2$ = lastBus}
 \IF{canFit($bus$, $prisoner$)}
 \STATE pickUp($prisoner$, $bus$)
-\STATE add($busDestinations$, destination($prisoner$))
+\STATE add($bus.destinations$, destination($prisoner$))
 \ENDIF
 \ENDIF
 
 
 \ENDFOR
 
-\ELSIF{destination($prisoner$)=$busLocation$ and pickedUp($prisoner$) and getBus($prisoner$)=$bus$}
+\ELSIF{destination($prisoner$)=$bus.location$ and pickedUp($prisoner$) and getBus($prisoner$)=$bus$}
 \STATE deliver($prisoner$, $bus$)
 \STATE $hadAction$ $\gets$ true
 \ENDIF
 
 \ENDFOR
 
-\IF{$hadAction$ or empty($busDestinations$)}
+\IF{$hadAction$ or empty($bus.destinations$)}
 \IF{!$hadAction$}
-\STATE $busLocation$ $\gets$ $currentLocation$
+\STATE $bus.location$ $\gets$ $currentLocation$
 \ENDIF
 \FORALL{$ignoredVertexes$}
 \STATE addDestination($bus$, $ignoredVertex$)
 \ENDFOR
 \STATE $ignoredVertexes$ $\gets$ [ ]
 \ELSE
-\STATE $busLocation$ $\gets$ $currentLocation$
+\STATE $bus.location$ $\gets$ $currentLocation$
 \STATE \textbf{repeat loop iteration}
 \ENDIF
 
@@ -117,7 +128,8 @@
 \ENDIF
 \ENDFOR
 
-\ENDWHILE
+\ENDWHILE\\
+\STATE \textbf{returns} $results$
 
 \end{algorithmic}
 \end{algorithm}
